@@ -1,36 +1,81 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navbar Responsive</title>
+    <title>Job Offers</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#38b2ac', 
+                    }
+                }
+            }
         }
-
-        .main-content {
-            padding-top: 60px;
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .hero-image {
+            background-image: url('https://images.unsplash.com/photo-1593062096033-9a26b09da705?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
         }
     </style>
 </head>
-
-<body>
-    <!-- Navbar -->
-    <header class="fixed w-full top-0 z-50">
-        <!-- Desktop Navbar -->
-        <div class="bg-gray-700 text-white">
-            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-                <div class="text-3xl font-bold">Logo</div>
-                <div class="hidden md:block">
-                    <button class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-md">
-                        Jobs
-                    </button>
-                </div>
-            </div>
-        </div>
+<body class="font-sans">
+    <header class="sticky top-0 z-50 bg-gray-700 text-white p-4 flex justify-between items-center">
+        <div class="text-2xl md:text-3xl font-bold">Logo</div>
+        <button 
+            onclick="document.getElementById('vacancies').scrollIntoView({behavior: 'smooth'})"
+            class="bg-primary hover:bg-teal-500 text-white px-4 py-1 md:px-6 md:py-2 rounded-full transition-colors text-sm md:text-base">
+            Jobs
+        </button>
     </header>
-</body>
 
+    <!-- Hero Section - Hidden on mobile -->
+    <section class="relative w-full h-screen hero-image hidden md:block">        
+        <!-- Scroll Down Button -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
+            <button 
+                onclick="document.getElementById('vacancies').scrollIntoView({behavior: 'smooth'})"
+                class="flex flex-col items-center text-white bounce"
+            >
+                <span class="mb-2">Scroll Down</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- Vacancies Section -->
+    <section id="vacancies" class="min-h-screen bg-white py-10 md:py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 md:mb-6 pt-4 md:pt-0">
+                Vacancies
+            </h2>
+            <div class="h-1 w-48 md:w-96 max-w-full bg-primary mx-auto mb-8 md:mb-16"></div>
+</body>
 </html>
