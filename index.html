@@ -147,15 +147,19 @@
 </head>
 
 <body class="font-sans">
-    
+
     <!-- Hero Section - Hidden on mobile -->
     <section class="relative w-full h-screen hero-image hidden md:block">
         <header class="sticky top-0 z-50 text-white p-4 flex justify-between items-center  backdrop-blur-sm ">
             <div class="text-2xl md:text-3xl font-bold px-10">Logo</div>
-            <button onclick="document.getElementById('vacancies').scrollIntoView({behavior: 'smooth'})"
-                class="bg-primary hover:bg-teal-500  text-white  md:px-8 md:py-2 rounded-full transition-colors text-sm md:text-base hidden md:block">
-                Jobs
-            </button>
+            <div class="w-full flex justify-end pr-20 mt-4">
+                <button
+                    onclick="document.getElementById('vacancies').scrollIntoView({ behavior: 'smooth' })"
+                    class="bg-gradient-to-r from-[#50E3C2] to-[#4A90E2] hover:from-[#4A90E2] hover:to-[#50E3C2] text-white md:px-8 md:py-1 rounded-full transition-all text-sm md:text-base hidden md:block">
+                    Jobs
+                </button>
+            </div>            
+
         </header>
         <!-- Scroll Down Button -->
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
@@ -515,15 +519,12 @@
                         <div class="mt-8 flex flex-col items-center">
                             <hr class="w-[600px] border-black mb-4" />
                             <button class="flex items-center text-black font-medium space-x-1">
-                              <img 
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII=" 
-                                class="w-12 h-12" 
-                                alt="Impresora"
-                              />
-                              <span>Imprimir</span>
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII="
+                                    class="w-12 h-12" alt="Impresora" />
+                                <span>Imprimir</span>
                             </button>
-                          </div>
-                                                                          
+                        </div>
+
                     </div>
 
                     <!-- Job 2 Details (Hidden by default) -->
@@ -590,14 +591,11 @@
                         <div class="mt-8 flex flex-col items-center">
                             <hr class="w-[600px] border-black mb-4" />
                             <button class="flex items-center text-black font-medium space-x-1">
-                              <img 
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII=" 
-                                class="w-12 h-12" 
-                                alt="Impresora"
-                              />
-                              <span>Imprimir</span>
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII="
+                                    class="w-12 h-12" alt="Impresora" />
+                                <span>Imprimir</span>
                             </button>
-                          </div>
+                        </div>
                     </div>
 
                     <!-- Job 3 Details (Hidden by default) -->
@@ -664,14 +662,11 @@
                         <div class="mt-8 flex flex-col items-center">
                             <hr class="w-[600px] border-black mb-4" />
                             <button class="flex items-center text-black font-medium space-x-1">
-                              <img 
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII=" 
-                                class="w-12 h-12" 
-                                alt="Impresora"
-                              />
-                              <span>Imprimir</span>
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII="
+                                    class="w-12 h-12" alt="Impresora" />
+                                <span>Imprimir</span>
                             </button>
-                          </div>
+                        </div>
                     </div>
 
                     <!-- Job 4 Details (Hidden by default) -->
@@ -738,14 +733,11 @@
                         <div class="mt-8 flex flex-col items-center">
                             <hr class="w-[600px] border-black mb-4" />
                             <button class="flex items-center text-black font-medium space-x-1">
-                              <img 
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII=" 
-                                class="w-12 h-12" 
-                                alt="Impresora"
-                              />
-                              <span>Imprimir</span>
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII="
+                                    class="w-12 h-12" alt="Impresora" />
+                                <span>Imprimir</span>
                             </button>
-                          </div>
+                        </div>
                     </div>
 
                     <!-- Job 5 Details (Hidden by default) -->
@@ -813,14 +805,11 @@
                         <div class="mt-8 flex flex-col items-center">
                             <hr class="w-[600px] border-black mb-4" />
                             <button class="flex items-center text-black font-medium space-x-1">
-                              <img 
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII=" 
-                                class="w-12 h-12" 
-                                alt="Impresora"
-                              />
-                              <span>Imprimir</span>
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII="
+                                    class="w-12 h-12" alt="Impresora" />
+                                <span>Imprimir</span>
                             </button>
-                          </div>
+                        </div>
                     </div>
 
                     <!-- Job 6 Details (Hidden by default) -->
@@ -887,14 +876,11 @@
                         <div class="mt-8 flex flex-col items-center">
                             <hr class="w-[600px] border-black mb-4" />
                             <button class="flex items-center text-black font-medium space-x-1">
-                              <img 
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII=" 
-                                class="w-12 h-12" 
-                                alt="Impresora"
-                              />
-                              <span>Imprimir</span>
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII="
+                                    class="w-12 h-12" alt="Impresora" />
+                                <span>Imprimir</span>
                             </button>
-                          </div>
+                        </div>
                     </div>
                 </div>
             </div>
