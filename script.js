@@ -1,43 +1,60 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("searchInput");
-  const resultsContainer = document.getElementById("results");
-  const resultsWrapper = document.getElementById("resultsContainer");
-  const loadingIndicator = document.getElementById("loading");
+  const jobContainer = document.getElementById('job-list');
+  const searchInput = document.getElementById('search');
 
-  searchInput.addEventListener("input", async (event) => {
-    const query = event.target.value.trim();
-    if (query.length < 2) {
-      resultsContainer.innerHTML = "";
-      resultsWrapper.classList.add("hidden");
-      loadingIndicator.classList.add("hidden");
-      return;
-    }
+  async function fetchJobs(query = "") {
+      try {
+          const url = "http://localhost:8080/api/offer/all";
+          const response = await fetch(url);
+          const data = await response.json();
+          renderJobs(data, query);
+      } catch (error) {
+          jobContainer.innerHTML = `
+              <div class="bg-red-100 text-red-700 p-4 rounded col-span-full">
+                  No se pudieron cargar las ofertas. Verifica la API
+              </div>
+          `;
+          console.error("Error cargando ofertas:", error);
+      }
+  }
 
-    loadingIndicator.classList.remove("hidden");
-    
-    try {
-      const response = await fetch(`http://localhost:8080/api/area/name/${query}`);
-      if (!response.ok) throw new Error("Error al obtener datos");
-      
-      const data = await response.json();
-      displayResults([data]);
-    } catch (error) {
-      console.error("Error en la búsqueda:", error);
-      resultsContainer.innerHTML = "<li class='p-2 text-red-500'>Error al buscar</li>";
-      resultsWrapper.classList.remove("hidden");
-    } finally {
-      loadingIndicator.classList.add("hidden");
-    }
+  function renderJobs(jobs, query) {
+      const filteredJobs = jobs.filter(job =>
+          job.tittle.toLowerCase().includes(query.toLowerCase())
+      );
+
+      if (filteredJobs.length === 0) {
+          jobContainer.innerHTML = `
+              <div class="text-gray-500 text-center p-4 col-span-full">
+                  No se encontraron ofertas con ese nombre.
+              </div>
+          `;
+          return;
+      }
+
+      jobContainer.innerHTML = filteredJobs.map(job => `
+          <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+              <h3 class="text-xl font-semibold mb-2 text-slate-800">${job.tittle}</h3>
+              <p class="text-gray-700 mb-2">${job.description}</p>
+              <p class="text-sm text-gray-500 mb-1">Publicado el: ${job.datePosted}</p>
+              <p class="text-sm text-gray-500 mb-1">${job.remote ? "Remoto" : "Presencial"}</p>
+              <div class="mt-2">
+                  ${job.technologyDto.map(tech => `
+                      <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-1">
+                          ${tech.name}
+                      </span>
+                  `).join('')}
+              </div>
+          </div>
+      `).join('');
+  }
+
+  searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+          const query = searchInput.value.trim();
+          fetchJobs(query);
+      }
   });
 
-  function displayResults(results) {
-    if (!results || results.length === 0 || !results[0].nombre) {
-      resultsContainer.innerHTML = "<li class='p-2 text-gray-500'>No se encontraron resultados</li>";
-    } else {
-      resultsContainer.innerHTML = results.map(item => 
-        `<li class='p-2 border-b last:border-none'>${item.nombre}</li>`
-      ).join("");
-    }
-    resultsWrapper.classList.remove("hidden");
-  }
+  fetchJobs();
 });
