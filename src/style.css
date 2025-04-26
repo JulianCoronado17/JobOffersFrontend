@@ -1,0 +1,124 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow: hidden;
+    overflow: auto;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.hero-image {
+    background-image: url('https://images.unsplash.com/photo-1593062096033-9a26b09da705?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+    background-size: cover;
+    background-position: center;
+}
+
+.bounce {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-20px);
+    }
+
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+.job-card {
+    transition: all 0.3s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.job-card .options-btn {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.job-card:hover .options-btn {
+    opacity: 1;
+}
+
+.job-card.active {
+    border-color: #38b2ac;
+    background-color: #f0fdfa;
+}
+
+.job-cards-container {
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.job-cards-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.job-cards-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.job-cards-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.job-cards-container::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+.job-details-container {
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.job-details-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.job-details-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.job-details-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.job-details-container::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* Añadir animación de transición para el panel de detalles */
+.job-details-panel {
+    transition: opacity 0.3s ease;
+}
+
+.job-details-panel.hidden {
+    opacity: 0;
+    display: none;
+}
+
+.job-details-panel {
+    opacity: 1;
+}

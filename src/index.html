@@ -18,10 +18,35 @@
 </head>
 
 <body class="bg-gray-50 text-gray-800">
-    <nav id="navbar-container" class="mb-8"></nav>
+
+    <section class="relative w-full h-screen hero-image hidden md:block">
+        <header class="sticky top-0 z-50 text-white px-10 py-4 flex justify-between items-center backdrop-blur-sm bg-[#333333]/40">
+            <div class="text-2xl md:text-3xl font-bold tracking-wide">Logo</div>
+            <button onclick="document.getElementById('vacancies').scrollIntoView({behavior: 'smooth'})"
+              class="hidden md:inline-flex items-center justify-center text-white font-semibold bg-gradient-to-r from-[#50E3C2] to-[#4A90E2] px-6 py-2 rounded-full text-sm md:text-base transition-all hover:opacity-90">
+              Jobs
+            </button>
+          </header>
+          
+      
+        <!-- Scroll Down Button -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
+          <button onclick="document.getElementById('vacancies').scrollIntoView({behavior: 'smooth'})"
+            class="flex flex-col items-center text-white bounce">
+            <span class="mb-2">Scroll Down</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="feather feather-chevron-down">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </div>
+      </section>
+      
 
     <section class="px-4 sm:px-6 lg:px-8">
         <div class="relative flex flex-col items-center mb-5">
+            <br>
             <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 md:mb-6 pt-4 md:pt-0">
                 Vacancies
             </h2>
