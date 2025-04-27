@@ -18,21 +18,72 @@
 </head>
 
 <body class="bg-gray-50 text-gray-800">
-    <nav id="navbar-container" class="mb-8"></nav>
 
-    <section class="px-4 sm:px-6 lg:px-8">
+    <section class="relative w-full h-screen hero-image hidden md:block">
+        <header
+            class="sticky top-0 z-50 text-white px-10 py-4 flex justify-between items-center backdrop-blur-sm bg-[#333333]/40">
+            <div class="text-2xl md:text-3xl font-bold tracking-wide">Logo</div>
+            <button onclick="document.getElementById('vacancies').scrollIntoView({behavior: 'smooth'})"
+                class="hidden md:inline-flex items-center justify-center text-white font-semibold bg-gradient-to-r from-[#50E3C2] to-[#4A90E2] px-6 py-2 rounded-full text-sm md:text-base transition-all hover:opacity-90">
+                Jobs
+            </button>
+        </header>
+
+        <!-- Scroll Down Button -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
+            <button onclick="document.getElementById('vacancies').scrollIntoView({behavior: 'smooth'})"
+                class="flex flex-col items-center text-white bounce">
+                <span class="mb-2">Scroll Down</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-chevron-down">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+        </div>
+    </section>
+
+    <section class="px-4 sm:px-6 lg:px-8" id="vacancies">
         <div class="relative flex flex-col items-center mb-5">
+            <br>
             <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 md:mb-6 pt-4 md:pt-0">
                 Vacancies
             </h2>
-            <div class="h-1 w-48 md:w-96 max-w-full bg-green-500 mb-8 md:mb-8 shadow-md shadow-green-500/50 rounded-full"></div>
+            <div class="h-1 w-48 md:w-96 max-w-full mb-8 md:mb-8 rounded-full"
+                style="background-color: #50E3C2; box-shadow: 0 4px 6px -1px #50E3C2;">
+            </div>
         </div>
 
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div id="offers-list" class="space-y-4"></div>
-            <div id="offer-details" class="bg-white p-6 rounded-lg shadow-md border border-gray-200"></div>
+            <div class="space-y-4 flex flex-col"> 
+                
+                <!-- Container for job offers - will be populated by JavaScript -->
+                <div id="offers-list" class="space-y-4 overflow-y-auto h-[550px] pr-2">
+                    <!-- Job cards will be generated here by JavaScript -->
+                </div>
+
+                <!-- PaginaciÃ³n exactamente como en la imagen -->
+                <div class="flex justify-center items-center space-x-1 mt-4">
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 bg-white text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 bg-white text-gray-600">1</button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded bg-[#4A90E2] text-white">2</button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 bg-white text-gray-600">3</button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 bg-white text-gray-600">4</button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 bg-white text-gray-600">5</button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 bg-white text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="offer-details" class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                <!-- Job details will be populated by JavaScript -->
+            </div>
         </div>
     </section>
+
 </body>
 
 </html>
