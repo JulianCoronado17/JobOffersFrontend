@@ -22,7 +22,6 @@ body::-webkit-scrollbar {
 }
 
 @keyframes bounce {
-
     0%,
     20%,
     50%,
@@ -42,6 +41,8 @@ body::-webkit-scrollbar {
 
 .job-card {
     transition: all 0.3s ease;
+    min-height: 120px; /* Ensure cards have consistent height */
+    margin-bottom: 16px; /* Add space between cards */
 }
 
 .job-card:hover {
@@ -61,6 +62,36 @@ body::-webkit-scrollbar {
 .job-card.active {
     border-color: #38b2ac;
     background-color: #f0fdfa;
+}
+
+/* Pagination styling to match the image exactly */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.pagination-button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 4px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.pagination-button.active {
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+}
+
+.pagination-button:not(.active) {
+    background-color: white;
+    color: #666;
+    border: 1px solid #ddd;
 }
 
 .job-cards-container {
