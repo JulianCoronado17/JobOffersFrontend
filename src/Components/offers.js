@@ -80,7 +80,7 @@ export const renderOfferPage = async (listContainerId, detailsContainerId, optio
             const pageButton = createPaginationButton(i.toString(), i);
             
             if (isCurrentPage) {
-                pageButton.className = 'px-3 py-1 border rounded bg-gradient-to-r from-[#50E3C2] to-[#4A90E2] text-white font-bold';
+                pageButton.className = 'px-3 py-1 border rounded bg-blue-500 text-white font-bold';
             } else {
                 pageButton.className = 'px-3 py-1 border rounded hover:bg-gray-200';
             }
