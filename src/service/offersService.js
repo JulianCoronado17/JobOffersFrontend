@@ -110,9 +110,131 @@ const mockOffers = [
             titleDescription: "Habilidades clave",
             Description: `Python avanzado (pandas, NumPy, scikit-learn). Machine Learning supervisado y no supervisado. Procesamiento de lenguaje natural (NLTK, spaCy). Visualización de datos (Matplotlib, Seaborn). SQL avanzado. Experimentación y análisis estadístico.`
         }
+    },
+    {
+        id: "9",
+        title: "UX/UI Designer Senior",
+        zone: "Bogotá, D.C.",
+        mode: "Híbrido flexible",
+        moreInfo: {
+            price: 4800000,
+            InfoAditional: "Contrato indefinido con periodo de prueba",
+            Time: "Tiempo Completo",
+            WorkFrom: "Híbrido (1-2 días presencial)",
+            titleDescription: "Requisitos",
+            Description: `Portafolio demostrable. 5+ años en diseño de interfaces. Experiencia con Figma, Adobe XD y prototipado. Conocimiento de sistemas de diseño. Investigación de usuarios y testing. Trabajo con desarrolladores en implementación. Experiencia en agile.`
+        }
+    },
+    {
+        id: "10",
+        title: "Backend Developer (Node.js)",
+        zone: "Remoto",
+        mode: "Remoto",
+        moreInfo: {
+            price: 5200000,
+            InfoAditional: "Contrato por prestación internacional",
+            Time: "Tiempo Completo",
+            WorkFrom: "100% Remoto (equipo global)",
+            titleDescription: "Tecnologías",
+            Description: `Node.js avanzado con TypeScript. Arquitectura de microservicios. Bases de datos SQL/NoSQL. AWS Lambda y serverless. Mensajería (Kafka, RabbitMQ). Patrones de diseño backend. Seguridad aplicativa (OWASP). Experiencia en alta escalabilidad.`
+        }
+    },
+    {
+        id: "11",
+        title: "Cloud Architect",
+        zone: "Medellín, Antioquia",
+        mode: "Remoto parcial",
+        moreInfo: {
+            price: 7500000,
+            InfoAditional: "Contrato indefinido con beneficios",
+            Time: "Tiempo Completo",
+            WorkFrom: "80% Remoto",
+            titleDescription: "Responsabilidades clave",
+            Description: `Diseñar arquitecturas cloud (AWS/Azure). Estrategias de migración. Optimización de costos. Gobierno y seguridad cloud. Certificaciones AWS/Azure. Infraestructura como código. Liderar equipos técnicos. Planes de disaster recovery.`
+        }
+    },
+    {
+        id: "12",
+        title: "Tech Lead Java",
+        zone: "Cali, Valle del Cauca",
+        mode: "Presencial flexible",
+        moreInfo: {
+            price: 6800000,
+            InfoAditional: "Contrato indefinido con stock options",
+            Time: "Tiempo Completo",
+            WorkFrom: "Presencial flexible (3 días)",
+            titleDescription: "Perfil buscado",
+            Description: `8+ años con Java/Spring Boot. Liderazgo técnico de equipos. Arquitectura de sistemas distribuidos. Patrones de diseño. Microservicios y Kubernetes. Metodologías ágiles. Toma de decisiones técnicas. Mentoring de desarrolladores.`
+        }
+    },
+    {
+        id: "13",
+        title: "QA Automation Engineer",
+        zone: "Bucaramanga, Santander",
+        mode: "Híbrido",
+        moreInfo: {
+            price: 4200000,
+            InfoAditional: "Contrato a término fijo 6 meses",
+            Time: "Tiempo Completo",
+            WorkFrom: "Híbrido (2 días remoto)",
+            titleDescription: "Habilidades técnicas",
+            Description: `Automatización con Selenium/Cypress. Pruebas de API (Postman, RestAssured). Frameworks BDD. Integración en CI/CD. Programación en Java/Python. Pruebas de carga (JMeter). Gestión de defectos (JIRA). Conocimiento en DevOps.`
+        }
+    },
+    {
+        id: "14",
+        title: "Scrum Master",
+        zone: "Barranquilla, Atlántico",
+        mode: "Remoto",
+        moreInfo: {
+            price: 5300000,
+            InfoAditional: "Contrato por servicios profesionales",
+            Time: "Tiempo Completo",
+            WorkFrom: "100% Remoto",
+            titleDescription: "Funciones",
+            Description: `Certificación Scrum. Facilitación de ceremonias. Remoción de impedimentos. Métricas ágiles (velocity, burndown). Coaching a equipos. Trabajo con Product Owners. Mejora continua de procesos. Experiencia con scaled frameworks (SAFe, LeSS).`
+        }
+    },
+    {
+        id: "15",
+        title: "Blockchain Developer",
+        zone: "Remoto Latam",
+        mode: "Remoto",
+        moreInfo: {
+            price: 7000000,
+            InfoAditional: "Contrato en cripto (opcional)",
+            Time: "Tiempo Completo",
+            WorkFrom: "100% Remoto",
+            titleDescription: "Conocimientos requeridos",
+            Description: `Solidity avanzado. Desarrollo de smart contracts. Arquitecturas DeFi. Ethereum y Layer 2. Seguridad blockchain. Web3.js/ethers.js. Tokens (ERC-20, ERC-721). Experiencia en auditorías. Conocimiento de oráculos.`
+        }
+    },
+    {
+        id: "16",
+        title: "SRE Engineer",
+        zone: "Bogotá, D.C.",
+        mode: "Híbrido premium",
+        moreInfo: {
+            price: 7200000,
+            InfoAditional: "Paquete completo de beneficios",
+            Time: "Tiempo Completo",
+            WorkFrom: "Híbrido (1 día presencial)",
+            titleDescription: "Tecnologías",
+            Description: `Observabilidad (Datadog, New Relic). Infraestructura como código. Kubernetes en producción. SLA/SLO management. Automatización con Python/Go. On-call rotation. Chaos engineering. Cloud networking avanzado.`
+        }
     }
 ];
 
+// /**
+//  * Obtiene ofertas con paginación, ordenamiento y filtrado opcionales
+//  * @param {Object} options - Opciones de paginación
+//  * @param {number} options.page - Número de página (comienza desde 1)
+//  * @param {number} options.pageSize - Cantidad de items por página
+//  * @param {string} options.sortBy - Campo para ordenar (ej: 'title', 'price')
+//  * @param {string} options.sortOrder - Orden ('asc' o 'desc')
+//  * @param {Object} options.filters - Filtros a aplicar (ej: { mode: 'Remoto' })
+//  * @returns {Promise<Object>} - Datos paginados con metadatos
+//  */
 export const GetAllOffers = async() => {
     return new Promise((resolve) => {
         setTimeout(() => {
@@ -133,3 +255,132 @@ export const GetBasicOffers = async () => {
         }, 500);
     });
 };
+
+export const getPaginatedOffers = async (options = {}) => {
+    const {
+      page = 1,
+      pageSize = 4,
+      sortBy = null,
+      sortOrder = 'asc',
+      filters = {}
+    } = options;
+  
+    return new Promise((resolve) => {
+      // Simular latencia de red
+      setTimeout(() => {
+        // Aplicar filtros
+        let filteredData = [...mockOffers];
+        
+        if (Object.keys(filters).length > 0) {
+          filteredData = filteredData.filter(offer => {
+            return Object.entries(filters).every(([key, value]) => {
+              // Para filtros en campos anidados como moreInfo.price
+              if (key.includes('.')) {
+                const [parentKey, childKey] = key.split('.');
+                return offer[parentKey] && 
+                       String(offer[parentKey][childKey]).toLowerCase().includes(String(value).toLowerCase());
+              }
+              // Para filtros en campos de primer nivel
+              return String(offer[key]).toLowerCase().includes(String(value).toLowerCase());
+            });
+          });
+        }
+  
+        // Aplicar ordenamiento
+        if (sortBy) {
+          filteredData.sort((a, b) => {
+            let valueA, valueB;
+            
+            // Manejar ordenamiento para propiedades anidadas (ej: moreInfo.price)
+            if (sortBy.includes('.')) {
+              const [parentKey, childKey] = sortBy.split('.');
+              valueA = a[parentKey] ? a[parentKey][childKey] : null;
+              valueB = b[parentKey] ? b[parentKey][childKey] : null;
+            } else {
+              valueA = a[sortBy];
+              valueB = b[sortBy];
+            }
+  
+            // Comparación para strings vs números
+            if (typeof valueA === 'string' && typeof valueB === 'string') {
+              return sortOrder === 'asc' 
+                ? valueA.localeCompare(valueB)
+                : valueB.localeCompare(valueA);
+            } else {
+              return sortOrder === 'asc' 
+                ? valueA - valueB 
+                : valueB - valueA;
+            }
+          });
+        }
+  
+        // Calcular paginación
+        const totalItems = filteredData.length;
+        const totalPages = Math.ceil(totalItems / pageSize);
+        const startIndex = (page - 1) * pageSize;
+        const endIndex = Math.min(startIndex + pageSize, totalItems);
+        
+        // Obtener los datos de la página actual
+        const paginatedItems = filteredData.slice(startIndex, endIndex);
+  
+        resolve({
+          data: paginatedItems,
+          pagination: {
+            page,
+            pageSize,
+            totalPages,
+            totalItems,
+            hasNextPage: page < totalPages,
+            hasPrevPage: page > 1
+          }
+        });
+      }, 500); // Simular tiempo de respuesta
+    });
+  };
+  
+  /**
+   * Buscar ofertas con texto libre y paginación
+   * @param {string} searchTerm - Término de búsqueda
+   * @param {Object} paginationOptions - Opciones de paginación
+   * @returns {Promise<Object>} - Resultados de búsqueda paginados
+   */
+  export const searchOffers = async (searchTerm, paginationOptions = {}) => {
+    if (!searchTerm) {
+      return getPaginatedOffers(paginationOptions);
+    }
+  
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const searchTermLower = searchTerm.toLowerCase();
+        
+        // Buscar en todos los campos relevantes
+        const searchResults = mockOffers.filter(offer => {
+          return (
+            offer.title.toLowerCase().includes(searchTermLower) ||
+            offer.zone.toLowerCase().includes(searchTermLower) ||
+            offer.mode.toLowerCase().includes(searchTermLower) ||
+            offer.moreInfo.Description.toLowerCase().includes(searchTermLower)
+          );
+        });
+  
+        // Usar la función de paginación para paginar los resultados
+        const { page = 1, pageSize = 4 } = paginationOptions;
+        const totalItems = searchResults.length;
+        const totalPages = Math.ceil(totalItems / pageSize);
+        const startIndex = (page - 1) * pageSize;
+        const endIndex = Math.min(startIndex + pageSize, totalItems);
+        
+        resolve({
+          data: searchResults.slice(startIndex, endIndex),
+          pagination: {
+            page,
+            pageSize,
+            totalPages,
+            totalItems,
+            hasNextPage: page < totalPages,
+            hasPrevPage: page > 1
+          }
+        });
+      }, 600);
+    });
+  };

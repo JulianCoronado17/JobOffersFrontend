@@ -1,13 +1,27 @@
-import { GetAllOffers } from '../service/offersService.js';
+import { getPaginatedOffers } from '../service/offersService.js';
 
-export const renderOfferPage = async (listContainerId, detailsContainerId) => {
-    const { data } = await GetAllOffers();
+export const renderOfferPage = async (listContainerId, detailsContainerId, options = {}) => {
+    // Configuración por defecto: 5 elementos por página
+    const pageOptions = {
+        page: options.page || 1,
+        pageSize: options.pageSize || 5,
+        sortBy: options.sortBy || null,
+        sortOrder: options.sortOrder || 'asc',
+        filters: options.filters || {}
+    };
 
+    // Obtener datos paginados
+    const { data, pagination } = await getPaginatedOffers(pageOptions);
+
+    // Obtener los contenedores
     const listContainer = document.getElementById(listContainerId);
     const detailsContainer = document.getElementById(detailsContainerId);
+    
+    // Limpiar los contenedores
     listContainer.innerHTML = '';
     detailsContainer.innerHTML = '<p class="text-gray-500">Selecciona una oferta para ver más detalles.</p>';
 
+    // Renderizar la lista de ofertas
     data.forEach((offer) => {
         const button = document.createElement('button');
         button.className = "w-full text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition";
@@ -25,7 +39,7 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
                     <h2 class="text-2xl font-bold mb-2">${offer.title}</h2>
                     <p class="mb-1"><strong>Zona:</strong> ${offer.zone}</p>
                     <p class="mb-1"><strong>Modalidad:</strong> ${offer.mode}</p>
-                    <p class="mb-1"><strong>Salario:</strong> $${offer.moreInfo.price}</p>
+                    <p class="mb-1"><strong>Salario:</strong> $${offer.moreInfo.price.toLocaleString('es-CO')}</p>
                     <p class="mb-1"><strong>Contrato:</strong> ${offer.moreInfo.InfoAditional}</p>
                     <p class="mb-1"><strong>Horario:</strong> ${offer.moreInfo.Time}</p>
                     <p class="mt-4 whitespace-pre-line">${offer.moreInfo.Description}</p>
@@ -33,11 +47,6 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
                     <div class="mt-8 flex flex-col items-center w-full">
                         <hr class="w-[450px] border-black mb-4" />
                         <button onclick="window.print()" class="flex items-center text-black font-medium space-x-2">
-                            <img 
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACUCAMAAAAQwc2tAAAAaVBMVEX///8AAADGxsY6Ojn6+voODgsVFRKenp14eHbs7Ozv7+9fX158fHxtbWxcXFyBgYF0dHVQUE8HBwMdHRsaGhqkpKTm5uTa2tq3t7ewsK8gICCXl5dWVlVLS0rh4eEuLixCQkDQ0NAnJyefyR/3AAACcklEQVR4nO3a646qMBQFYCq0KNJRKcjF6/j+D3lqO+rMyehuzDmya9b3B0k02Su0lV6SBAAAAAAAAAAAAAAAAAAAAADikM1o2dhFkrJOf9B0xzxJ1tSVpFV1wztIK6WpBKUySrZjl/pI1guj9IKilRH92LU+kuVCbgvya7OdFDnnhmVzVNsZ+bX1qhKsO4h7HmE5uD8P5GAEOXhBDl6Qg5d3yZE0Qn7QOWbn95IXVPOEiTcV6thNKN1RiYX/+Dl24T/0t5mFUeT0QwhlbrMURi/wE1uYeo6NPRm7/KtUmlP6nKGW6djlX8xqZaZkp/jdUqmaHhheY21zPDv8NOY9cuS8cgwhOfaT7Ntl7fo3sxwhz2MvZWkTtAep7d1nKj+SKHNshFjt3eVoL3lVHfZR5mgPp8X5eRxP5flue1omUeb4q3/4S4w5foMc/x5yIMf/8C1HFs7/gGeOrNPTMJedNaY58oDJoJczzzHUASFqwz5HfZiWlOVBMc0xXHPIVVtQ2tu+Gt8cgetXrHMkTfj+4NcPGOUoBqVS7eyUy9HP9T3zzuWQO3+bKjWwWSEtxWX1TRqXY/NowHU5jLysyIly7PKviu1toVAG5rguOwbst7/MOi+Xzle76vTyHu3bldr52zJfj138D4U/kLTx/bx4cGap8P18c71jKGuC9z9wnuEFLjnocTeOHPR4FUuO6p7zH3k0Obq7zUrrmNpVwLgbRQ5CHDne4VxfL+paE7PBaantvLYbu9aHQs692kHLSMP63Kt9MTHUOeTKnUPuOTerxK1gzWnsz4WfUasMduiNIAUAAAAAAAAAAAAAAAAAAAAAOH8AfNNIoaye7TUAAAAASUVORK5CYII=" 
-                                class="w-12 h-12" 
-                                alt="Impresora"
-                            />
                             <span>Imprimir</span>
                         </button>
                     </div>
@@ -47,4 +56,59 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
 
         listContainer.appendChild(button);
     });
+
+    let paginationContainer = document.getElementById('pagination-container');
+    if (!paginationContainer) {
+        paginationContainer = document.createElement('div');
+        paginationContainer.id = 'pagination-container';
+        paginationContainer.className = 'mt-4 flex justify-center';
+        listContainer.parentNode.appendChild(paginationContainer);
+    } else {
+        paginationContainer.innerHTML = '';
+    }
+    if (pagination.totalPages > 1) {
+        const paginationDiv = document.createElement('div');
+        paginationDiv.className = 'flex justify-center items-center space-x-2 py-4';
+        
+        if (pagination.hasPrevPage) {
+            const prevButton = createPaginationButton('Anterior', pagination.page - 1);
+            prevButton.className = 'px-3 py-1 border rounded bg-gray-100 hover:bg-gray-200';
+            paginationDiv.appendChild(prevButton);
+        }
+        for (let i = 1; i <= pagination.totalPages; i++) {
+            const isCurrentPage = i === pagination.page;
+            const pageButton = createPaginationButton(i.toString(), i);
+            
+            if (isCurrentPage) {
+                pageButton.className = 'px-3 py-1 border rounded bg-gradient-to-r from-[#50E3C2] to-[#4A90E2] text-white font-bold';
+            } else {
+                pageButton.className = 'px-3 py-1 border rounded hover:bg-gray-200';
+            }
+            
+            paginationDiv.appendChild(pageButton);
+        }
+        
+        if (pagination.hasNextPage) {
+            const nextButton = createPaginationButton('Siguiente', pagination.page + 1);
+            nextButton.className = 'px-3 py-1 border rounded bg-gray-100 hover:bg-gray-200';
+            paginationDiv.appendChild(nextButton);
+        }
+        
+        paginationContainer.appendChild(paginationDiv);
+    }
+    
+    function createPaginationButton(text, pageNum) {
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.addEventListener('click', () => {
+            const newOptions = {...options, page: pageNum};
+            renderOfferPage(listContainerId, detailsContainerId, newOptions);
+            
+            document.getElementById(listContainerId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        return button;
+    }
+};
+export const initOfferPage = (listContainerId, detailsContainerId) => {
+    renderOfferPage(listContainerId, detailsContainerId);
 };
