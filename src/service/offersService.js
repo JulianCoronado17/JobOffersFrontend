@@ -225,16 +225,6 @@ const mockOffers = [
     }
 ];
 
-// /**
-//  * Obtiene ofertas con paginación, ordenamiento y filtrado opcionales
-//  * @param {Object} options - Opciones de paginación
-//  * @param {number} options.page - Número de página (comienza desde 1)
-//  * @param {number} options.pageSize - Cantidad de items por página
-//  * @param {string} options.sortBy - Campo para ordenar (ej: 'title', 'price')
-//  * @param {string} options.sortOrder - Orden ('asc' o 'desc')
-//  * @param {Object} options.filters - Filtros a aplicar (ej: { mode: 'Remoto' })
-//  * @returns {Promise<Object>} - Datos paginados con metadatos
-//  */
 export const GetAllOffers = async() => {
     return new Promise((resolve) => {
         setTimeout(() => {
@@ -266,32 +256,26 @@ export const getPaginatedOffers = async (options = {}) => {
     } = options;
   
     return new Promise((resolve) => {
-      // Simular latencia de red
       setTimeout(() => {
-        // Aplicar filtros
         let filteredData = [...mockOffers];
         
         if (Object.keys(filters).length > 0) {
           filteredData = filteredData.filter(offer => {
             return Object.entries(filters).every(([key, value]) => {
-              // Para filtros en campos anidados como moreInfo.price
               if (key.includes('.')) {
                 const [parentKey, childKey] = key.split('.');
                 return offer[parentKey] && 
                        String(offer[parentKey][childKey]).toLowerCase().includes(String(value).toLowerCase());
               }
-              // Para filtros en campos de primer nivel
               return String(offer[key]).toLowerCase().includes(String(value).toLowerCase());
             });
           });
         }
   
-        // Aplicar ordenamiento
         if (sortBy) {
           filteredData.sort((a, b) => {
             let valueA, valueB;
             
-            // Manejar ordenamiento para propiedades anidadas (ej: moreInfo.price)
             if (sortBy.includes('.')) {
               const [parentKey, childKey] = sortBy.split('.');
               valueA = a[parentKey] ? a[parentKey][childKey] : null;
@@ -301,7 +285,6 @@ export const getPaginatedOffers = async (options = {}) => {
               valueB = b[sortBy];
             }
   
-            // Comparación para strings vs números
             if (typeof valueA === 'string' && typeof valueB === 'string') {
               return sortOrder === 'asc' 
                 ? valueA.localeCompare(valueB)
@@ -314,13 +297,11 @@ export const getPaginatedOffers = async (options = {}) => {
           });
         }
   
-        // Calcular paginación
         const totalItems = filteredData.length;
         const totalPages = Math.ceil(totalItems / pageSize);
         const startIndex = (page - 1) * pageSize;
         const endIndex = Math.min(startIndex + pageSize, totalItems);
         
-        // Obtener los datos de la página actual
         const paginatedItems = filteredData.slice(startIndex, endIndex);
   
         resolve({
@@ -334,16 +315,11 @@ export const getPaginatedOffers = async (options = {}) => {
             hasPrevPage: page > 1
           }
         });
-      }, 500); // Simular tiempo de respuesta
+      }, 500);
     });
   };
   
-  /**
-   * Buscar ofertas con texto libre y paginación
-   * @param {string} searchTerm - Término de búsqueda
-   * @param {Object} paginationOptions - Opciones de paginación
-   * @returns {Promise<Object>} - Resultados de búsqueda paginados
-   */
+
   export const searchOffers = async (searchTerm, paginationOptions = {}) => {
     if (!searchTerm) {
       return getPaginatedOffers(paginationOptions);
@@ -353,7 +329,6 @@ export const getPaginatedOffers = async (options = {}) => {
       setTimeout(() => {
         const searchTermLower = searchTerm.toLowerCase();
         
-        // Buscar en todos los campos relevantes
         const searchResults = mockOffers.filter(offer => {
           return (
             offer.title.toLowerCase().includes(searchTermLower) ||
@@ -363,8 +338,7 @@ export const getPaginatedOffers = async (options = {}) => {
           );
         });
   
-        // Usar la función de paginación para paginar los resultados
-        const { page = 1, pageSize = 4 } = paginationOptions;
+        const { page = 1, pageSize = 3 } = paginationOptions;
         const totalItems = searchResults.length;
         const totalPages = Math.ceil(totalItems / pageSize);
         const startIndex = (page - 1) * pageSize;
