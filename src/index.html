@@ -7,6 +7,7 @@
     <title>Job offers View</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script type="module">
         import { renderNavbar } from './Components/navbar.js';
         renderNavbar();
@@ -15,6 +16,7 @@
         import { renderOfferPage } from './Components/offers.js';
         document.addEventListener('DOMContentLoaded', () => {
             renderOfferPage('offers-list', 'offer-details');
+            lucide.createIcons();
         });
     </script>
 </head>
@@ -44,23 +46,23 @@
         </div>
     </section>
 
-    <section class="px-4 sm:px-6 lg:px-8" id="vacancies">
+    <section class="px-4 sm:px-6 lg:px-8 py-8" id="vacancies">
         <div class="relative flex flex-col items-center mb-5">
-            <br>
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 md:mb-6 pt-4 md:pt-0">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 md:mb-6">
                 Vacancies
             </h2>
-            <div class="h-1 w-48 md:w-96 max-w-full mb-8 md:mb-8 rounded-full"
+            <div class="h-1 w-48 md:w-96 max-w-full mb-8 md:mb-12 rounded-full"
                 style="background-color: #50E3C2; box-shadow: 0 4px 6px -1px #50E3C2;">
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-4 flex flex-col"> 
-                <div id="offers-list" class="space-y-4 overflow-y-auto h-[550px] pr-2 py-10"></div>
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 space-y-4 flex flex-col"> 
+                <div id="offers-list" class="space-y-4 overflow-y-auto h-[700px] pr-4"></div>
+                <div id="pagination-container" class="flex justify-center"></div>
             </div>
 
-            <div id="offer-details" class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <div id="offer-details" class="lg:col-span-2 bg-white p-8 rounded-lg shadow-lg border border-gray-200 min-h-[700px]">
             </div>
         </div>
     </section>
