@@ -17,6 +17,12 @@
             renderOfferPage('offers-list', 'offer-details');
         });
     </script>
+    <script type="module">
+        import { initSearchBar } from './Components/searchInput.js';
+        document.addEventListener('DOMContentLoaded', () => {
+            initSearchBar('searchInput', 'searchBtn', 'offers-list', 'offer-details');
+        });
+    </script>
 </head>
 
 <body class="bg-gray-50 text-gray-800">
@@ -56,24 +62,25 @@
         </div>
 
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-4 flex flex-col"> 
-                <div class="mb-6">
-                    <div class="flex items-center bg-white border border-gray-300 rounded-full px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-[#50E3C2]">
-                      <input
-                        id="searchInput"
-                        type="text"
-                        placeholder="Search job offers..."
-                        class="flex-grow bg-transparent focus:outline-none text-gray-700 placeholder-gray-400"
-                      />
-                      <button
-                        id="searchBtn"
-                        class="ml-2 text-white font-semibold bg-gradient-to-r from-[#50E3C2] to-[#4A90E2] px-4 py-1.5 rounded-full text-sm hover:opacity-90 transition-all"
-                      >
-                        Search
-                      </button>
+            <div class="space-y-4 flex flex-col relative">
+                <div class="mb-6 relative">
+                    <div
+                        class="relative flex items-center bg-white rounded-full px-4 py-2 shadow focus-within:ring-2 focus-within:ring-[#50E3C2]">
+                        <input
+                            id="searchInput"
+                            type="text"
+                            placeholder="Search job offers..."
+                            class="flex-grow bg-transparent focus:outline-none text-gray-700 placeholder-gray-400"
+                        />
+                        <button
+                            id="searchBtn"
+                            class="ml-2 z-20 text-white font-semibold bg-gradient-to-r from-[#50E3C2] to-[#4A90E2] px-4 py-1.5 rounded-full text-sm hover:opacity-90 transition-all"
+                        >
+                            Search
+                        </button>
                     </div>
-                  </div>
-                  
+                </div>
+
                 <div id="offers-list" class="space-y-4 overflow-y-auto h-[550px] pr-2 py-10"></div>
             </div>
 
