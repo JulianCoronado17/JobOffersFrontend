@@ -1,5 +1,3 @@
-import { searchOffers } from '../service/offersService.js';
-
 export const initSearchBar = (searchInputId, searchButtonId, listContainerId, detailsContainerId) => {
     const searchInput = document.getElementById(searchInputId);
     const searchButton = document.getElementById(searchButtonId);

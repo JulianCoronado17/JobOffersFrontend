@@ -1,114 +1,119 @@
-import { getPaginatedOffers } from '../service/offersService.js';
+// import { getPaginatedOffers } from '../service/offersService.js';
+import { getAllOffers } from '../service/offersService.js';
 
-export const renderOfferPage = async (listContainerId, detailsContainerId, options = {}) => {
-    // Configuración por defecto: 5 elementos por página
-    const pageOptions = {
-        page: options.page || 1,
-        pageSize: options.pageSize || 5,
-        sortBy: options.sortBy || null,
-        sortOrder: options.sortOrder || 'asc',
-        filters: options.filters || {}
-    };
+export const renderOfferPage = async (listContainerId, detailsContainerId) => {
+    try {
+        // Obtener todas las ofertas sin paginación
+        const offers = await getAllOffers();
+        console.log(offers);
 
-    // Obtener datos paginados
-    const { data, pagination } = await getPaginatedOffers(pageOptions);
+        const listContainer = document.getElementById(listContainerId);
+        const detailsContainer = document.getElementById(detailsContainerId);
 
-    // Obtener los contenedores
-    const listContainer = document.getElementById(listContainerId);
-    const detailsContainer = document.getElementById(detailsContainerId);
-    
-    // Limpiar los contenedores
-    listContainer.innerHTML = '';
-    detailsContainer.innerHTML = '<p class="text-gray-500">Selecciona una oferta para ver más detalles.</p>';
+        // Limpiar los contenedores
+        listContainer.innerHTML = '';
+        detailsContainer.innerHTML = '<p class="text-gray-500">Selecciona una oferta para ver más detalles.</p>';
 
-    // Renderizar la lista de ofertas
-    data.forEach((offer) => {
-        const button = document.createElement('button');
-        button.className = "w-full text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition";
-        button.dataset.id = offer.id;
+        // Renderizar la lista de ofertas
+        offers.forEach((offer) => {
+            const button = document.createElement('button');
+            button.className = "w-full text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition";
+            button.dataset.id = offer.id;
 
-        button.innerHTML = `
-            <h2 class="text-lg font-semibold">${offer.title}</h2>
-            <p class="text-sm text-gray-600">${offer.zone}</p>
-            <p class="text-sm text-gray-500">${offer.mode}</p>
-        `;
+            // Determinar si el trabajo es remoto o presencial
+            const workMode = offer.remote ? "Remoto" : "Presencial";
 
-        button.addEventListener('click', () => {
-            detailsContainer.innerHTML = `
-                <div class="bg-white p-6 rounded-lg shadow flex flex-col items-center">
-                    <h2 class="text-2xl font-bold mb-2">${offer.title}</h2>
-                    <p class="mb-1"><strong>Zona:</strong> ${offer.zone}</p>
-                    <p class="mb-1"><strong>Modalidad:</strong> ${offer.mode}</p>
-                    <p class="mb-1"><strong>Salario:</strong> $${offer.moreInfo.price.toLocaleString('es-CO')}</p>
-                    <p class="mb-1"><strong>Contrato:</strong> ${offer.moreInfo.InfoAditional}</p>
-                    <p class="mb-1"><strong>Horario:</strong> ${offer.moreInfo.Time}</p>
-                    <p class="mt-4 whitespace-pre-line">${offer.moreInfo.Description}</p>
-
-                    <div class="mt-8 flex flex-col items-center w-full">
-                        <hr class="w-[450px] border-black mb-4" />
-                        <button onclick="window.print()" class="flex items-center text-black font-medium space-x-2">
-                            <span>Imprimir</span>
-                        </button>
-                    </div>
-                </div>
+            button.innerHTML = `
+                <h2 class="text-lg font-semibold">${offer.tittle}</h2>
+                <p class="text-sm text-gray-600">ID Ciudad: ${offer.idCity}</p>
+                <p class="text-sm text-gray-500">${workMode}</p>
             `;
+
+            button.addEventListener('click', () => {
+                renderOfferDetails(offer, detailsContainer);
+            });
+
+            listContainer.appendChild(button);
         });
-
-        listContainer.appendChild(button);
-    });
-
-    let paginationContainer = document.getElementById('pagination-container');
-    if (!paginationContainer) {
-        paginationContainer = document.createElement('div');
-        paginationContainer.id = 'pagination-container';
-        paginationContainer.className = 'mt-4 flex justify-center';
-        listContainer.parentNode.appendChild(paginationContainer);
-    } else {
-        paginationContainer.innerHTML = '';
+    } catch (error) {
+        console.error("Error al cargar las ofertas:", error);
+        document.getElementById(listContainerId).innerHTML = 
+            '<p class="text-red-500">Error al cargar las ofertas. Por favor, intenta nuevamente.</p>';
     }
+};
+
+function renderOfferDetails(offer, container) {
+    const technologies = offer.technologyDto.map(tech => tech.name).join(', ');
+    const postedDate = new Date(offer.datePosted).toLocaleDateString();
+    const workMode = offer.remote ? "Remoto" : "Presencial";
+
+    container.innerHTML = `
+        <div class="bg-white p-6 rounded-lg shadow flex flex-col h-full">
+            <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
+            <p class="mb-1"><strong>Zona:</strong> ID Ciudad ${offer.idCity}</p>
+            <p class="mb-1"><strong>Modalidad:</strong> ${workMode}</p>
+            <p class="mb-1"><strong>Fecha publicación:</strong> ${postedDate}</p>
+            <p class="mb-1"><strong>Tecnologías:</strong> ${technologies}</p>
+            <p class="mt-4 whitespace-pre-line">${offer.description}</p>
+
+            <div class="mt-auto flex flex-col items-center border-t border-gray-200 py-4">
+                <hr class="w-[450px] border-black mb-4" />
+                <button onclick="window.print()" class="flex items-center text-black font-medium space-x-2">
+                    <i data-lucide="printer" class="w-5 h-5"></i>
+                    <span>Imprimir</span>
+                </button>
+            </div>
+        </div>
+    `;
+    lucide.createIcons();
+}
+
+function renderPagination(pagination, listContainerId, detailsContainerId, options) {
+    const paginationContainer = document.getElementById('pagination-container');
+    paginationContainer.innerHTML = '';
+
     if (pagination.totalPages > 1) {
         const paginationDiv = document.createElement('div');
-        paginationDiv.className = 'flex justify-center items-center space-x-2 py-4';
-        
-        if (pagination.hasPrevPage) {
-            const prevButton = createPaginationButton('Anterior', pagination.page - 1);
-            prevButton.className = 'px-3 py-1 border rounded bg-gray-100 hover:bg-gray-200';
-            paginationDiv.appendChild(prevButton);
-        }
+        paginationDiv.className = 'flex justify-center items-center space-x-2';
+
+        const prevButton = createPaginationButton('', pagination.page - 1, 'move-left');
+        prevButton.className = `px-3 py-1 border rounded flex items-center ${!pagination.hasPrevPage ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-200'}`;
+        paginationDiv.appendChild(prevButton);
+
         for (let i = 1; i <= pagination.totalPages; i++) {
             const isCurrentPage = i === pagination.page;
             const pageButton = createPaginationButton(i.toString(), i);
-            
-            if (isCurrentPage) {
-                pageButton.className = 'px-3 py-1 border rounded bg-blue-500 text-white font-bold';
-            } else {
-                pageButton.className = 'px-3 py-1 border rounded hover:bg-gray-200';
-            }
-            
+            pageButton.className = `px-3 py-1 border rounded ${isCurrentPage ? 'bg-blue-500 text-white font-bold' : 'hover:bg-blue-200'}`;
             paginationDiv.appendChild(pageButton);
         }
-        
-        if (pagination.hasNextPage) {
-            const nextButton = createPaginationButton('Siguiente', pagination.page + 1);
-            nextButton.className = 'px-3 py-1 border rounded bg-gray-100 hover:bg-gray-200';
-            paginationDiv.appendChild(nextButton);
-        }
-        
+
+        const nextButton = createPaginationButton('', pagination.page + 1, 'move-right');
+        nextButton.className = `px-3 py-1 border rounded flex items-center ${!pagination.hasNextPage ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-200'}`;
+        paginationDiv.appendChild(nextButton);
+
         paginationContainer.appendChild(paginationDiv);
+
+        function createPaginationButton(text, pageNum, iconName = null) {
+            const button = document.createElement('button');
+
+            if (iconName) {
+                button.innerHTML = `<i data-lucide="${iconName}" class="w-5 h-5"></i>`;
+            } else {
+                button.textContent = text;
+            }
+
+            button.addEventListener('click', (e) => {
+                if ((pageNum < 1 || pageNum > pagination.totalPages)) {
+                    e.preventDefault();
+                    return;
+                }
+
+                const newOptions = { ...options, page: pageNum };
+                renderOfferPage(listContainerId, detailsContainerId, newOptions);
+                document.getElementById(listContainerId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            return button;
+        }
+        lucide.createIcons();
     }
-    
-    function createPaginationButton(text, pageNum) {
-        const button = document.createElement('button');
-        button.textContent = text;
-        button.addEventListener('click', () => {
-            const newOptions = {...options, page: pageNum};
-            renderOfferPage(listContainerId, detailsContainerId, newOptions);
-            
-            document.getElementById(listContainerId).scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-        return button;
-    }
-};
-export const initOfferPage = (listContainerId, detailsContainerId) => {
-    renderOfferPage(listContainerId, detailsContainerId);
-};
+}
