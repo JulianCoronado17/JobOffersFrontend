@@ -1,5 +1,15 @@
-// import { getPaginatedOffers } from '../service/offersService.js';
-import { getAllOffers } from '../service/offersService.js';
+import { getAllOffers, getCityWithID } from '../service/offersService.js';
+
+const fetchCityName = async (cityId) => {
+    if (!cityId) return "N/A";
+    try {
+        const cityData = await getCityWithID(cityId);
+        return cityData.name || "N/A";
+    } catch (error) {
+        console.error('Error fetching city name:', error);
+        return "N/A";
+    }
+};
 
 export const renderOfferPage = async (listContainerId, detailsContainerId) => {
     try {
@@ -15,17 +25,17 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
         detailsContainer.innerHTML = '<p class="text-gray-500">Selecciona una oferta para ver más detalles.</p>';
 
         // Renderizar la lista de ofertas
-        offers.forEach((offer) => {
+        for (const offer of offers) {
+            const cityName = await fetchCityName(offer.idCity);
+            const workMode = offer.remote ? "Remoto" : "Presencial";
+
             const button = document.createElement('button');
             button.className = "w-full text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition";
             button.dataset.id = offer.id;
 
-            // Determinar si el trabajo es remoto o presencial
-            const workMode = offer.remote ? "Remoto" : "Presencial";
-
             button.innerHTML = `
                 <h2 class="text-lg font-semibold">${offer.tittle}</h2>
-                <p class="text-sm text-gray-600">ID Ciudad: ${offer.idCity}</p>
+                <p class="text-sm text-gray-600">Zona: ${cityName}</p>
                 <p class="text-sm text-gray-500">${workMode}</p>
             `;
 
@@ -34,7 +44,7 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
             });
 
             listContainer.appendChild(button);
-        });
+        }
     } catch (error) {
         console.error("Error al cargar las ofertas:", error);
         document.getElementById(listContainerId).innerHTML = 
@@ -42,15 +52,16 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
     }
 };
 
-function renderOfferDetails(offer, container) {
+async function renderOfferDetails(offer, container) {
     const technologies = offer.technologyDto.map(tech => tech.name).join(', ');
     const postedDate = new Date(offer.datePosted).toLocaleDateString();
     const workMode = offer.remote ? "Remoto" : "Presencial";
+    const cityName = await fetchCityName(offer.idCity);
 
     container.innerHTML = `
         <div class="bg-white p-6 rounded-lg shadow flex flex-col h-full">
             <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
-            <p class="mb-1"><strong>Zona:</strong> ID Ciudad ${offer.idCity}</p>
+            <p class="mb-1"><strong>Zona:</strong> ${cityName}</p>
             <p class="mb-1"><strong>Modalidad:</strong> ${workMode}</p>
             <p class="mb-1"><strong>Fecha publicación:</strong> ${postedDate}</p>
             <p class="mb-1"><strong>Tecnologías:</strong> ${technologies}</p>
@@ -65,7 +76,9 @@ function renderOfferDetails(offer, container) {
             </div>
         </div>
     `;
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+    }
 }
 
 function renderPagination(pagination, listContainerId, detailsContainerId, options) {

@@ -1,4 +1,15 @@
-import { getAllOffers } from '../service/offersService.js';
+import { getAllOffers, getCityWithID } from '../service/offersService.js';
+
+const fetchCityName = async (cityId) => {
+    if (!cityId) return "N/A";
+    try {
+        const cityData = await getCityWithID(cityId);
+        return cityData.name || "N/A";
+    } catch (error) {
+        console.error('Error fetching city name:', error);
+        return "N/A";
+    }
+};
 
 export const initSearchBar = (searchInputId, searchButtonId, listContainerId, detailsContainerId) => {
     const searchInput = document.getElementById(searchInputId);
@@ -53,13 +64,14 @@ export const initSearchBar = (searchInputId, searchButtonId, listContainerId, de
             return;
         }
 
-        filteredOffers.forEach(offer => {
+        for (const offer of filteredOffers) {
+            const cityName = await fetchCityName(offer.idCity);
+            const workMode = offer.remote ? "Remoto" : "Presencial";
             const suggestionItem = document.createElement('div');
             suggestionItem.className = 'p-2 hover:bg-gray-100 cursor-pointer';
-            const workMode = offer.remote ? "Remoto" : "Presencial";
             suggestionItem.innerHTML = `
                 <h2 class="text-sm font-semibold">${offer.tittle}</h2>
-                <p class="text-xs text-gray-600">ID Ciudad: ${offer.idCity} - ${workMode}</p>
+                <p class="text-xs text-gray-600">Zona: ${cityName} - ${workMode}</p>
                 <p class="text-xs text-gray-600">Technologies: ${offer.technologyDto.map(tech => tech.name).join(', ')}</p>
             `;
 
@@ -72,7 +84,7 @@ export const initSearchBar = (searchInputId, searchButtonId, listContainerId, de
             });
 
             suggestionsContainer.appendChild(suggestionItem);
-        });
+        }
 
         suggestionsContainer.style.display = 'block';
     };
@@ -94,15 +106,16 @@ export const initSearchBar = (searchInputId, searchButtonId, listContainerId, de
 };
 
 // Function to dynamically import and call renderOfferDetails (copied from offers.js)
-function renderOfferDetails(offer, container) {
+async function renderOfferDetails(offer, container) {
     const technologies = offer.technologyDto.map(tech => tech.name).join(', ');
     const postedDate = new Date(offer.datePosted).toLocaleDateString();
     const workMode = offer.remote ? "Remoto" : "Presencial";
+    const cityName = await fetchCityName(offer.idCity);
 
     container.innerHTML = `
         <div class="bg-white p-6 rounded-lg shadow flex flex-col h-full">
             <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
-            <p class="mb-1"><strong>Zona:</strong> ID Ciudad ${offer.idCity}</p>
+            <p class="mb-1"><strong>Zona:</strong> ${cityName}</p>
             <p class="mb-1"><strong>Modalidad:</strong> ${workMode}</p>
             <p class="mb-1"><strong>Fecha publicación:</strong> ${postedDate}</p>
             <p class="mb-1"><strong>Tecnologías:</strong> ${technologies}</p>
