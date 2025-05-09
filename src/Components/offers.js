@@ -70,7 +70,7 @@ async function renderOfferDetails(offer, container) {
             <div class="mt-auto flex flex-col items-center border-t border-gray-200 py-4">
                 <hr class="w-[450px] border-black mb-4" />
                 <button onclick="window.print()" class="flex items-center text-black font-medium space-x-2">
-                    <i data-lucide="printer" class="w-5 h-5"></i>
+                    <i class="fa-solid fa-print text-lg"></i>
                     <span>Imprimir</span>
                 </button>
             </div>
