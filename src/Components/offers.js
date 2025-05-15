@@ -22,12 +22,12 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
 
         // Limpiar los contenedores
         listContainer.innerHTML = '';
-        detailsContainer.innerHTML = '<p class="text-gray-500">Selecciona una oferta para ver más detalles.</p>';
+        detailsContainer.innerHTML = '<p class="text-gray-500">Select a offer to see more details.</p>';
 
         // Renderizar la lista de ofertas
         for (const offer of offers) {
             const cityName = await fetchCityName(offer.idCity);
-            const workMode = offer.remote ? "Remoto" : "Presencial";
+            const workMode = offer.remote ? "Remote" : "On-Site";
 
             const button = document.createElement('button');
             button.className = "w-full text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition";
@@ -35,7 +35,7 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
 
             button.innerHTML = `
                 <h2 class="text-lg font-semibold">${offer.tittle}</h2>
-                <p class="text-sm text-gray-600">Zona: ${cityName}</p>
+                <p class="text-sm text-gray-600">Zone: ${cityName}</p>
                 <p class="text-sm text-gray-500">${workMode}</p>
             `;
 
@@ -46,32 +46,32 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
             listContainer.appendChild(button);
         }
     } catch (error) {
-        console.error("Error al cargar las ofertas:", error);
+        console.error("Error loading job offers:", error);
         document.getElementById(listContainerId).innerHTML = 
-            '<p class="text-red-500">Error al cargar las ofertas. Por favor, intenta nuevamente.</p>';
+            '<p class="text-red-500">Error loading offers, please try again.</p>';
     }
 };
 
 async function renderOfferDetails(offer, container) {
     const technologies = offer.technologyDto.map(tech => tech.name).join(', ');
     const postedDate = new Date(offer.datePosted).toLocaleDateString();
-    const workMode = offer.remote ? "Remoto" : "Presencial";
+    const workMode = offer.remote ? "Remote" : "On-site";
     const cityName = await fetchCityName(offer.idCity);
 
     container.innerHTML = `
         <div class="bg-white p-6 rounded-lg shadow flex flex-col h-full">
             <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
-            <p class="mb-1"><strong>Zona:</strong> ${cityName}</p>
-            <p class="mb-1"><strong>Modalidad:</strong> ${workMode}</p>
-            <p class="mb-1"><strong>Fecha publicación:</strong> ${postedDate}</p>
-            <p class="mb-1"><strong>Tecnologías:</strong> ${technologies}</p>
+            <p class="mb-1"><strong>Zone:</strong> ${cityName}</p>
+            <p class="mb-1"><strong>Modality:</strong> ${workMode}</p>
+            <p class="mb-1"><strong>Publication Date:</strong> ${postedDate}</p>
+            <p class="mb-1"><strong>Technologies:</strong> ${technologies}</p>
             <p class="mt-4 whitespace-pre-line">${offer.description}</p>
 
             <div class="mt-auto flex flex-col items-center border-t border-gray-200 py-4">
                 <hr class="w-[450px] border-black mb-4" />
                 <button onclick="window.print()" class="flex items-center text-black font-medium space-x-2">
                     <i class="fa-solid fa-print text-lg"></i>
-                    <span>Imprimir</span>
+                    <span>Print</span>
                 </button>
             </div>
         </div>

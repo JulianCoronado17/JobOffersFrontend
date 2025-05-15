@@ -45,18 +45,18 @@ export const initSearchBar = (searchInputId, searchButtonId, listContainerId, de
         listContainer.innerHTML = '';
 
         if (filteredOffers.length === 0) {
-            listContainer.innerHTML = '<p class="text-gray-500 text-center w-full">No se encontraron ofertas.</p>';
+            listContainer.innerHTML = '<p class="text-gray-500 text-center w-full">No job offers found.</p>';
             return;
         }
 
         for (const offer of filteredOffers) {
-            const workMode = offer.remote ? "Remoto" : "Presencial";
+            const workMode = offer.remote ? "Remote" : "On-Site";
             const offerCard = document.createElement('div');
             offerCard.className = 'bg-white p-4 rounded-lg shadow hover:shadow-md transition cursor-pointer';
             offerCard.innerHTML = `
                 <h2 class="text-lg font-semibold mb-1">${offer.tittle}</h2>
-                <p class="text-sm text-gray-600 mb-1">Zona: ${offer.cityName} - ${workMode}</p>
-                <p class="text-sm text-gray-600">Tecnologías: ${offer.technologyDto.map(tech => tech.name).join(', ')}</p>
+                <p class="text-sm text-gray-600 mb-1">Zone: ${offer.cityName} - ${workMode}</p>
+                <p class="text-sm text-gray-600">Technologies: ${offer.technologyDto.map(tech => tech.name).join(', ')}</p>
             `;
             offerCard.addEventListener('click', () => {
                 const detailsContainer = document.getElementById(detailsContainerId);
@@ -108,23 +108,23 @@ export const initSearchBar = (searchInputId, searchButtonId, listContainerId, de
 async function renderOfferDetails(offer, container) {
     const technologies = offer.technologyDto.map(tech => tech.name).join(', ');
     const postedDate = new Date(offer.datePosted).toLocaleDateString();
-    const workMode = offer.remote ? "Remoto" : "Presencial";
+    const workMode = offer.remote ? "Remote" : "On-Site";
     const cityName = await fetchCityName(offer.idCity);
 
     container.innerHTML = `
         <div class="bg-white p-6 rounded-lg shadow flex flex-col h-full">
             <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
-            <p class="mb-1"><strong>Zona:</strong> ${cityName}</p>
-            <p class="mb-1"><strong>Modalidad:</strong> ${workMode}</p>
-            <p class="mb-1"><strong>Fecha publicación:</strong> ${postedDate}</p>
-            <p class="mb-1"><strong>Tecnologías:</strong> ${technologies}</p>
+            <p class="mb-1"><strong>Zone:</strong> ${cityName}</p>
+            <p class="mb-1"><strong>Mode:</strong> ${workMode}</p>
+            <p class="mb-1"><strong>Publication Date:</strong> ${postedDate}</p>
+            <p class="mb-1"><strong>Technologies:</strong> ${technologies}</p>
             <p class="mt-4 whitespace-pre-line">${offer.description}</p>
 
             <div class="mt-auto flex flex-col items-center border-t border-gray-200 py-4">
                 <hr class="w-[450px] border-black mb-4" />
                 <button onclick="window.print()" class="flex items-center text-black font-medium space-x-2">
                     <i class="fa-solid fa-print text-lg"></i>
-                    <span>Imprimir</span>
+                    <span>Print</span>
                 </button>
             </div>
         </div>
