@@ -51,6 +51,8 @@ body::-webkit-scrollbar {
     max-width: 10rem
 }
 
+
+
 @media screen and (max-width: 420px) {
     .slide-up {
       animation: slideUp 0.3s ease-out forwards;
