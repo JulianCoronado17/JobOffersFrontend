@@ -20,6 +20,7 @@ export const renderOfferPage = async (listContainerId, detailsContainerId, optio
     // Renderizar ofertas
     data.forEach((offer) => {
         const button = document.createElement('button');
+        console.log("------->")
         button.className = "w-full text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition";
         button.dataset.id = offer.id;
 
