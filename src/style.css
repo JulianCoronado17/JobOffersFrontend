@@ -54,6 +54,24 @@ body::-webkit-scrollbar {
   vertical-align: middle;
 }
 
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #offer-details, #offer-details * {
+    visibility: visible;
+  }
+
+  #offer-details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+
+
 @keyframes fade-in {
   from {
     opacity: 0;

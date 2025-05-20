@@ -121,22 +121,35 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
 };
 
 async function renderOfferDetails(offer, container) {
-    const technologies = offer.technologyDto.map(tech => tech.name).join(', ');
-    const postedDate = new Date(offer.datePosted).toLocaleDateString();
-    const workMode = offer.remote ? "Remote" : "On-site";
-    const cityName = await fetchCityName(offer.idCity);
+  const technologies = offer.technologyDto.map(tech => tech.name).join(', ');
+  const postedDate = new Date(offer.datePosted).toLocaleDateString();
+  const workMode = offer.remote ? "Remote" : "On-site";
+  const cityName = await fetchCityName(offer.idCity);
 
-    container.innerHTML = `
-        <div class="bg-white p-6 rounded-lg shadow flex flex-col h-full animate-fade-in ">
-            <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
-            <p class="mb-1"><strong>Zone:</strong> ${cityName}</p>
-            <p class="mb-1"><strong>Modality:</strong> ${workMode}</p>
-            <p class="mb-1"><strong>Publication Date:</strong> ${postedDate}</p>
-            <p class="mb-1"><strong>Technologies:</strong> ${technologies}</p>
-            <p class="mt-4 whitespace-pre-line">${offer.description}</p>
+  container.innerHTML = `
+    <div class="bg-white p-6 rounded-lg shadow h-full flex flex-col justify-between animate-fade-in">
+      <div>
+        <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
+        <p class="mb-1"><strong>Zone:</strong> ${cityName}</p>
+        <p class="mb-1"><strong>Modality:</strong> ${workMode}</p>
+        <p class="mb-1"><strong>Publication Date:</strong> ${postedDate}</p>
+        <p class="mb-1"><strong>Technologies:</strong> ${technologies}</p>
+        <p class="mt-4 whitespace-pre-line">${offer.description}</p>
+      </div>
+
+      <div>
+        <hr class="my-6 border-t border-gray-300" />
+        <div class="w-full flex justify-center text-gray-600 hover:text-gray-800 cursor-pointer text-sm"
+             onclick="window.print()">
+          <i class="fas fa-print mr-2"></i> imprimir
         </div>
-    `;
+      </div>
+    </div>
+  `;
 }
+
+
+
 
 export const setOffers = (newOffers) => {
     offersGlobal = newOffers;
