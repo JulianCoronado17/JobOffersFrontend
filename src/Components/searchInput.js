@@ -42,32 +42,49 @@ export const initSearchBar = (searchInputId, searchButtonId, listContainerId, de
     };
 
     const handleSearch = () => {
-        const term = positionInput.value.trim().toLowerCase();
-        const locationTerm = locationInput.value.trim().toLowerCase();
-        const selectedMode = workModeSelect.value;
+    const term = positionInput.value.trim().toLowerCase();
+    const locationTerm = locationInput.value.trim().toLowerCase();
+    const selectedMode = workModeSelect.value;
 
-        const filteredOffers = allOffers.filter((offer) => {
-            const titleMatch = offer.tittle.toLowerCase().includes(term);
-            const locationMatch = offer.cityName.toLowerCase().includes(locationTerm);
-            const modeMatch =
-                selectedMode === "Place of Work" ||
-                (selectedMode === "remoto" && offer.remote) ||
-                (selectedMode === "presencial" && !offer.remote);
-            return titleMatch && locationMatch && modeMatch;
-        });
+    const filteredOffers = allOffers.filter((offer) => {
+        const titleMatch = offer.tittle.toLowerCase().includes(term);
+        const locationMatch = offer.cityName.toLowerCase().includes(locationTerm);
+        const modeMatch =
+            selectedMode === "Place of Work" ||
+            (selectedMode === "remoto" && offer.remote) ||
+            (selectedMode === "presencial" && !offer.remote);
+        return titleMatch && locationMatch && modeMatch;
+    });
 
-        setOffers(filteredOffers);
-        resetPage();
-        renderOfferPage(listContainerId, detailsContainerId);
-    };
+    const innerContainer = document.querySelector("#offers-inner");
+    const paginationWrapper = document.querySelector("#pagination-wrapper");
 
-    // 🔄 Búsqueda reactiva: ejecutar búsqueda cada vez que se escribe
+    // Clean up containers before rendering
+    innerContainer.innerHTML = "";
+    paginationWrapper.innerHTML = "";
+
+    if (filteredOffers.length === 0) {
+        innerContainer.innerHTML = `
+            <div class="text-center text-gray-400 py-20 w-full text-sm">
+                <i class="fas fa-search fa-2x mb-2 block mx-auto"></i>
+                <p class="text-center">No job offers found</p>
+            </div>
+        `;
+        return;
+    }
+
+    setOffers(filteredOffers);
+    resetPage();
+    renderOfferPage(listContainerId, detailsContainerId);
+};
+
+
+    // 🔄 Reactive search: filters as user types
     positionInput.addEventListener("input", handleSearch);
     locationInput.addEventListener("input", handleSearch);
     workModeSelect.addEventListener("change", handleSearch);
-
-    // También mantener funcionalidad del botón si lo deseas
+    // 🔍 Search button click event
     searchButton.addEventListener("click", handleSearch);
 
-    fetchOffers(); // Inicializa al cargar
+    fetchOffers(); // Initialize on load
 };

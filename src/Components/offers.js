@@ -1,3 +1,5 @@
+// ✅ OFFERS.JS COMPLETO CON FUENTE ABeeZee + ANIMACIONES + PAGINADO
+
 import { getAllOffers, getCityWithID } from '../service/offersService.js';
 
 let currentPage = 1;
@@ -19,18 +21,18 @@ const renderPagination = (totalPages, listContainerId, detailsContainerId) => {
     if (totalPages <= 1) return document.createElement("div");
 
     const paginationContainer = document.createElement("div");
-    paginationContainer.className = "flex justify-center mt-auto pt-4 gap-2";
+    paginationContainer.className = "flex justify-center mt-auto pt-4 gap-2 animate-fade-in";
 
     const createButton = (content, page, isActive = false, isDisabled = false) => {
         const btn = document.createElement("button");
         btn.innerHTML = content;
         btn.disabled = isDisabled;
         btn.className = `
-            w-10 h-10 flex items-center justify-center border border-blue-500 
-            rounded-none font-semibold
-            ${isActive ? "bg-blue-500 !text-white" : "bg-white text-blue-500 hover:bg-blue-100"}
+            pagination-font w-10 h-10 flex items-center justify-center border border-blue-500 
+            rounded-none text-[12px] font-normal
+            transition duration-300 ease-in-out transform
+            ${isActive ? "bg-blue-500 !text-white scale-100" : "bg-white text-blue-500 hover:bg-blue-100 hover:scale-105 hover:shadow-md"}
             ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
-            transition
         `;
         if (!isDisabled) {
             btn.addEventListener("click", () => {
@@ -93,7 +95,7 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
             const workMode = offer.remote ? "Remote" : "On-Site";
 
             const button = document.createElement('button');
-            button.className = "w-full max-w-full min-w-[350px] text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition";
+            button.className = "w-full max-w-full min-w-[350px] text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition duration-300 ease-in-out animate-fade-in ";
             button.dataset.id = offer.id;
 
             button.innerHTML = `
@@ -125,7 +127,7 @@ async function renderOfferDetails(offer, container) {
     const cityName = await fetchCityName(offer.idCity);
 
     container.innerHTML = `
-        <div class="bg-white p-6 rounded-lg shadow flex flex-col h-full">
+        <div class="bg-white p-6 rounded-lg shadow flex flex-col h-full animate-fade-in ">
             <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
             <p class="mb-1"><strong>Zone:</strong> ${cityName}</p>
             <p class="mb-1"><strong>Modality:</strong> ${workMode}</p>
