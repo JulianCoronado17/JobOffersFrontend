@@ -25,15 +25,26 @@
       initSearchBar('position-input', 'search-button', 'offers-list', 'offer-details');
     });
   </script>
+
   <script>
-  document.querySelectorAll('.job-card').forEach(card => {
-    card.addEventListener('click', () => {
+  document.addEventListener('click', function (event) {
+    const card = event.target.closest('.job-card');
+    if (card) {
       const details = document.getElementById('offer-details');
-      details.classList.remove('hidden');
-      details.classList.add('slide-up');
-    });
+
+      if (window.innerWidth <= 767) {
+        // Modo móvil: deslizar desde abajo
+        details.classList.remove('hidden');
+        details.classList.add('slide-up');
+      } else {
+        // Escritorio: mostrar normal
+        details.classList.remove('hidden');
+        details.classList.remove('slide-up');
+      }
+    }
   });
 </script>
+
 
 </head>
 
@@ -107,8 +118,8 @@
             <select id="work-mode-select" 
               class="w-full border border-gray-300 rounded-lg px-4 py-0 focus:outline-none focus:ring-2 focus:ring-teal-400">
               <option selected>Place of Work</option>
-              <option value="remoto">Remoto</option>
-              <option value="presencial">Presencial</option>
+              <option value="remoto">Remote</option>
+              <option value="presencial">On-site</option>
             </select>
           </div>
         </div>
@@ -119,17 +130,20 @@
           <div class="mb-6">
           </div>
 
-          <div id="offers-list" class="space-y-4 overflow-y-auto min-h-[550px] min-w-[400px] flex flex-col items-start"></div>
+          <div id="offers-list" class="space-y-4 overflow-y-auto h-[550px] pr-2 py-10"></div>
         </div>
-
-        <!-- Contenedor reutilizable para móvil y escritorio -->
-          <div id="offer-details" class="hidden fixed bottom-0 left-0 w-full h-[75%] bg-white z-50 shadow-lg rounded-t-2xl p-4 md:static md:block md:h-auto md:w-auto md:rounded-none">
-            <!-- Detalles de la vacante -->
+          <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"></div>
+          <!-- Contenedor reutilizable para móvil y escritorio -->
+          <div id="offer-details" 
+           class="hidden fixed bottom-0 left-0 w-full h-[75%] bg-white z-50 shadow-lg rounded-t-2xl p-6 overflow-y-auto md:static md:block md:h-auto md:w-auto md:rounded-none md:shadow-none">
           </div>
+
+
 
       </div>
   </section>
 
 </body>
+<script src="./Components/offers.js"></script>
 
 </html>
