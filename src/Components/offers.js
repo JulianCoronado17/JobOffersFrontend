@@ -16,17 +16,23 @@ const fetchCityName = async (cityId) => {
 };
 
 const renderPagination = (totalPages, listContainerId, detailsContainerId) => {
-    const paginationContainer = document.createElement("div");
-    paginationContainer.className = "flex justify-center mt-4 gap-1";
+    if (totalPages <= 1) return document.createElement("div");
 
-    const createButton = (text, page, disabled = false) => {
+    const paginationContainer = document.createElement("div");
+    paginationContainer.className = "flex justify-center mt-auto pt-4 gap-2";
+
+    const createButton = (content, page, isActive = false, isDisabled = false) => {
         const btn = document.createElement("button");
-        btn.innerText = text;
-        btn.disabled = disabled;
-        btn.className = `px-3 py-1 border rounded ${
-            page === currentPage ? "bg-blue-500 text-white" : "bg-white text-blue-500"
-        } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`;
-        if (!disabled) {
+        btn.innerHTML = content;
+        btn.disabled = isDisabled;
+        btn.className = `
+            w-10 h-10 flex items-center justify-center border border-blue-500 
+            rounded-none font-semibold
+            ${isActive ? "bg-blue-500 !text-white" : "bg-white text-blue-500 hover:bg-blue-100"}
+            ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+            transition
+        `;
+        if (!isDisabled) {
             btn.addEventListener("click", () => {
                 currentPage = page;
                 renderOfferPage(listContainerId, detailsContainerId);
@@ -35,13 +41,19 @@ const renderPagination = (totalPages, listContainerId, detailsContainerId) => {
         return btn;
     };
 
-    paginationContainer.appendChild(createButton("«", currentPage - 1, currentPage === 1));
+    paginationContainer.appendChild(
+        createButton(`<i class="fas fa-arrow-left"></i>`, currentPage - 1, false, currentPage === 1)
+    );
 
     for (let i = 1; i <= totalPages; i++) {
-        paginationContainer.appendChild(createButton(i, i));
+        paginationContainer.appendChild(
+            createButton(`${i}`, i, currentPage === i)
+        );
     }
 
-    paginationContainer.appendChild(createButton("»", currentPage + 1, currentPage === totalPages));
+    paginationContainer.appendChild(
+        createButton(`<i class="fas fa-arrow-right"></i>`, currentPage + 1, false, currentPage === totalPages)
+    );
 
     return paginationContainer;
 };
@@ -53,10 +65,13 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
         }
 
         const listContainer = document.getElementById(listContainerId);
-        const detailsContainer = document.getElementById(detailsContainerId);
+        const innerContainer = listContainer.querySelector("#offers-inner");
+        const paginationWrapper = listContainer.querySelector("#pagination-wrapper");
 
-        listContainer.innerHTML = '';
-        listContainer.classList.add("min-h-[550px]", "min-w-[400px]", "flex", "flex-col", "items-start");
+        innerContainer.innerHTML = "";
+        paginationWrapper.innerHTML = "";
+
+        const detailsContainer = document.getElementById(detailsContainerId);
         detailsContainer.innerHTML = '<p class="text-gray-500">Select a offer to see more details.</p>';
 
         const start = (currentPage - 1) * offersPerPage;
@@ -64,10 +79,10 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
         const offersToShow = offersGlobal.slice(start, end);
 
         if (offersToShow.length === 0) {
-            listContainer.innerHTML = `
-                <div class="text-center text-gray-400 py-20">
-                    <i class="fas fa-search fa-2x mb-2"></i>
-                    <p>No job offers found</p>
+            innerContainer.innerHTML = `
+                <div class="text-center text-gray-400 py-20 w-full text-sm">
+                    <i class="fas fa-search fa-2x mb-2 block mx-auto"></i>
+                    <p class="text-center">No job offers found</p>
                 </div>
             `;
             return;
@@ -91,11 +106,11 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
                 renderOfferDetails(offer, detailsContainer);
             });
 
-            listContainer.appendChild(button);
+            innerContainer.appendChild(button);
         }
 
         const totalPages = Math.ceil(offersGlobal.length / offersPerPage);
-        listContainer.appendChild(renderPagination(totalPages, listContainerId, detailsContainerId));
+        paginationWrapper.appendChild(renderPagination(totalPages, listContainerId, detailsContainerId));
     } catch (error) {
         console.error("Error loading job offers:", error);
         document.getElementById(listContainerId).innerHTML = 
