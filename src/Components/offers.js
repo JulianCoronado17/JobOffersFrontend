@@ -1,4 +1,5 @@
 import { getAllOffers, getCityWithID } from '../service/offersService.js';
+import { downloadOfferAsPDF } from './generatePDF.js';
 
 let currentPage = 1;
 const offersPerPage = 4;
@@ -23,9 +24,8 @@ const renderPagination = (totalPages, listContainerId, detailsContainerId) => {
         const btn = document.createElement("button");
         btn.innerText = text;
         btn.disabled = disabled;
-        btn.className = `px-3 py-1 border rounded ${
-            page === currentPage ? "bg-blue-500 text-white" : "bg-white text-blue-500"
-        } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`;
+        btn.className = `px-3 py-1 border rounded ${page === currentPage ? "bg-blue-500 text-white" : "bg-white text-blue-500"
+            } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`;
         if (!disabled) {
             btn.addEventListener("click", () => {
                 currentPage = page;
@@ -98,7 +98,7 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
         listContainer.appendChild(renderPagination(totalPages, listContainerId, detailsContainerId));
     } catch (error) {
         console.error("Error loading job offers:", error);
-        document.getElementById(listContainerId).innerHTML = 
+        document.getElementById(listContainerId).innerHTML =
             '<p class="text-red-500">Error loading offers, please try again.</p>';
     }
 };
@@ -129,13 +129,20 @@ async function renderOfferDetails(offer, container) {
 
             <div class="mt-auto flex flex-col items-center border-t border-gray-200 py-4">
                 <hr class="w-[450px] border-black mb-4" />
-                <button onclick="window.print()" class="flex items-center text-black font-medium space-x-2">
-                    <i class="fa-solid fa-print text-lg"></i>
-                    <span>Print</span>
+                <button id="download-pdf-btn" class="flex items-center text-black font-medium space-x-2 mt-2">
+                    <i class="fa-solid fa-file-pdf text-lg"></i>
+                    <span>Download PDF</span>
                 </button>
             </div>
         </div>
     `;
+
+    const pdfBtn = document.getElementById("download-pdf-btn");
+    if (pdfBtn) {
+        pdfBtn.addEventListener("click", () => {
+            downloadOfferAsPDF(offer);
+        });
+    }
 
     if (window.innerWidth <= 767) {
         container.classList.add('slide-up');
@@ -151,6 +158,8 @@ async function renderOfferDetails(offer, container) {
 export const setOffers = (newOffers) => {
     offersGlobal = newOffers;
 };
+
+
 
 export const resetPage = () => {
     currentPage = 1;
