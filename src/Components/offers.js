@@ -78,7 +78,7 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
             const workMode = offer.remote ? "Remote" : "On-Site";
 
             const button = document.createElement('button');
-            button.className = "w-full max-w-full min-w-[350px] text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition";
+            button.className = "w-full max-w-full min-w-[350px] text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition job-card";
             button.dataset.id = offer.id;
 
             button.innerHTML = `
@@ -104,21 +104,48 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
 };
 
 async function renderOfferDetails(offer, container) {
+    if (!container) {
+        container = document.getElementById('offer-details');
+    }
+
+    container.classList.remove('hidden');
+    container.classList.remove('slide-up');
+
     const technologies = offer.technologyDto.map(tech => tech.name).join(', ');
     const postedDate = new Date(offer.datePosted).toLocaleDateString();
     const workMode = offer.remote ? "Remote" : "On-site";
     const cityName = await fetchCityName(offer.idCity);
 
     container.innerHTML = `
-        <div class="bg-white p-6 rounded-lg shadow flex flex-col h-full">
+        <div class="bg-white p-6 rounded-lg shadow flex flex-col h-full job-card relative">
+            <button onclick="closeOfferDetails()" class="absolute top-2 right-4 md:hidden text-black text-xl font-bold z-50">×</button>
+
             <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
             <p class="mb-1"><strong>Zone:</strong> ${cityName}</p>
             <p class="mb-1"><strong>Modality:</strong> ${workMode}</p>
             <p class="mb-1"><strong>Publication Date:</strong> ${postedDate}</p>
             <p class="mb-1"><strong>Technologies:</strong> ${technologies}</p>
             <p class="mt-4 whitespace-pre-line">${offer.description}</p>
+
+            <div class="mt-auto flex flex-col items-center border-t border-gray-200 py-4">
+                <hr class="w-[450px] border-black mb-4" />
+                <button onclick="window.print()" class="flex items-center text-black font-medium space-x-2">
+                    <i class="fa-solid fa-print text-lg"></i>
+                    <span>Print</span>
+                </button>
+            </div>
         </div>
     `;
+
+    if (window.innerWidth <= 767) {
+        container.classList.add('slide-up');
+        container.classList.remove('hidden');
+        document.getElementById('overlay').classList.remove('hidden');
+    }
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+    }
 }
 
 export const setOffers = (newOffers) => {

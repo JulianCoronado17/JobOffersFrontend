@@ -25,20 +25,36 @@
       initSearchBar('position-input', 'search-button', 'offers-list', 'offer-details');
     });
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-  document.querySelectorAll('.job-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const details = document.getElementById('offer-details');
-      details.classList.remove('hidden');
-      details.classList.add('slide-up');
-    });
-  });
-</script>
+    document.addEventListener('click', function (event) {
+      const card = event.target.closest('.job-card');
+      if (card) {
+        const details = document.getElementById('offer-details');
 
+        if (window.innerWidth <= 767) {
+          // Mobile mode: slide up from bottom
+          details.classList.remove('hidden');
+          details.classList.add('slide-up');
+          document.getElementById('overlay').classList.remove('hidden');
+        } else {
+          // Desktop mode: normal display
+          details.classList.remove('hidden');
+          details.classList.remove('slide-up');
+        }
+      }
+    });
+
+    function closeOfferDetails() {
+      const container = document.getElementById('offer-details');
+      container.classList.add('hidden');
+      container.classList.remove('slide-up');
+      document.getElementById('overlay').classList.add('hidden');
+    }
+  </script>
 </head>
 
 <body class="bg-gray-50 text-gray-800">
-
   <section class="relative w-full h-screen hero-image hidden md:block">
     <header
       class="sticky top-0 z-50 text-white px-10 py-4 flex justify-between items-center backdrop-blur-sm bg-[#333333]/40">
@@ -72,43 +88,41 @@
       </div>
       <div class="flex flex-col items-center gap-4 w-full mt-6">
         <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mb-8">
-          <!-- Input combinado de posición y ubicación + botón de búsqueda -->
+          <!-- Combined position and location input + search button -->
           <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl">
-            <!-- Contenedor combinado con bordes redondeados -->
+            <!-- Combined container with rounded borders -->
             <div
               class="relative w-full md:w-2/3 flex rounded-full border border-gray-300 bg-white overflow-hidden shadow-sm">
-              <!-- Icono + input de posición -->
+              <!-- Icon + position input -->
               <div class="flex items-center flex-1 px-3">
                 <i class="fas fa-briefcase text-gray-400 mr-2"></i>
                 <input type="text" id="position-input" placeholder="Position or category"
                   class="w-full py-2 focus:outline-none" />
               </div>
 
-              <!-- Separador vertical -->
+              <!-- Vertical separator -->
               <div class="w-px bg-gray-300 my-2"></div>
 
-              <!-- Icono + input de ubicación -->
+              <!-- Icon + location input -->
               <div class="flex items-center flex-1 px-3">
                 <i class="fas fa-map-marker-alt text-gray-400 mr-2"></i>
                 <input type="text" id="location-input" placeholder="Location" class="w-full py-2 focus:outline-none" />
               </div>
 
-               <!-- Botón de búsqueda -->
-             <button id="search-button" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-3 py-2">
-               <i class="fas fa-search"></i>
-             </button>
-
+              <!-- Search button -->
+              <button id="search-button" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-3 py-2">
+                <i class="fas fa-search"></i>
+              </button>
             </div>
-
           </div>
 
-          <!-- Filtro de lugar de trabajo -->
+          <!-- Workplace filter -->
           <div class="w-full max-w-xs">
-            <select id="work-mode-select" 
+            <select id="work-mode-select"
               class="w-full border border-gray-300 rounded-lg px-4 py-0 focus:outline-none focus:ring-2 focus:ring-teal-400">
               <option selected>Place of Work</option>
-              <option value="remoto">Remoto</option>
-              <option value="presencial">Presencial</option>
+              <option value="remoto">Remote</option>
+              <option value="presencial">On-site</option>
             </select>
           </div>
         </div>
@@ -116,20 +130,20 @@
 
       <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="space-y-4 flex flex-col">
-          <div class="mb-6">
+          <div class="mb-6"></div>
+          <div id="offers-list" class="space-y-4 overflow-y-auto min-h-[550px] min-w-[400px] flex flex-col items-start">
           </div>
-
-          <div id="offers-list" class="space-y-4 overflow-y-auto min-h-[550px] min-w-[400px] flex flex-col items-start"></div>
         </div>
 
-        <!-- Contenedor reutilizable para móvil y escritorio -->
-          <div id="offer-details" class="hidden fixed bottom-0 left-0 w-full h-[75%] bg-white z-50 shadow-lg rounded-t-2xl p-4 md:static md:block md:h-auto md:w-auto md:rounded-none">
-            <!-- Detalles de la vacante -->
-          </div>
+        <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"></div>
 
+        <!-- Reusable container for mobile and desktop -->
+        <div id="offer-details"
+          class="hidden fixed bottom-0 left-0 w-full h-[75%] bg-white z-50 shadow-lg rounded-t-2xl p-6 overflow-y-auto md:static md:block md:h-auto md:w-auto md:rounded-none md:shadow-none">
+          <!-- Offer details will be inserted here -->
+        </div>
       </div>
+    </div>
   </section>
-
 </body>
-
 </html>
