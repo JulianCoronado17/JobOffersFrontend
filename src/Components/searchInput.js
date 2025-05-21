@@ -61,13 +61,13 @@ export const initSearchBar = (searchInputId, searchButtonId, listContainerId, de
         renderOfferPage(listContainerId, detailsContainerId);
     };
 
-    // 🔄 Búsqueda reactiva: ejecutar búsqueda cada vez que se escribe
+    // Reactive search: execute search on each input
     positionInput.addEventListener("input", handleSearch);
     locationInput.addEventListener("input", handleSearch);
     workModeSelect.addEventListener("change", handleSearch);
 
-    // También mantener funcionalidad del botón si lo deseas
+    // Also keep button functionality
     searchButton.addEventListener("click", handleSearch);
 
-    fetchOffers(); // Inicializa al cargar
+    fetchOffers(); // Initialize on load
 };
