@@ -12,18 +12,25 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
+  overflow: hidden;
+  overflow: auto;
   overflow: hidden;
   overflow: auto;
 }
 
 body::-webkit-scrollbar {
   display: none;
+  display: none;
 }
 
 .hero-image {
+  background-image: url('../public/images/ImagenPrincipal.avif');
+  background-size: cover;
+  background-position: center;
   background-image: url('../public/images/ImagenPrincipal.avif');
   background-size: cover;
   background-position: center;
@@ -44,7 +51,53 @@ body::-webkit-scrollbar {
   max-width: 10rem;
 }
 
+/* For pagination Buttons. */
+.pagination-font {
+  font-family: 'ABeeZee', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.3;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #offer-details, #offer-details * {
+    visibility: visible;
+  }
+
+  #offer-details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
+
 @media screen and (max-width: 420px) {
+  .slide-up {
+    animation: slideUp 0.3s ease-out forwards;
+  }
   .slide-up {
     animation: slideUp 0.3s ease-out forwards;
   }
@@ -57,8 +110,4 @@ body::-webkit-scrollbar {
       transform: translateY(25%);
     }
   }
-}
-
-#overlay {
-  z-index: 40; 
 }

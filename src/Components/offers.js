@@ -1,3 +1,5 @@
+// ✅ OFFERS.JS COMPLETO CON VERIFICACIONES
+
 import { getAllOffers, getCityWithID } from '../service/offersService.js';
 import { downloadOfferAsPDF } from './generatePDF.js';
 
@@ -17,16 +19,22 @@ const fetchCityName = async (cityId) => {
 };
 
 const renderPagination = (totalPages, listContainerId, detailsContainerId) => {
-    const paginationContainer = document.createElement("div");
-    paginationContainer.className = "flex justify-center mt-4 gap-1";
+    if (totalPages <= 1) return document.createElement("div");
 
-    const createButton = (text, page, disabled = false) => {
+    const paginationContainer = document.createElement("div");
+    paginationContainer.className = "flex justify-center mt-auto pt-4 gap-2 animate-fade-in";
+
+    const createButton = (content, page, isActive = false, isDisabled = false) => {
         const btn = document.createElement("button");
-        btn.innerText = text;
-        btn.disabled = disabled;
-        btn.className = `px-3 py-1 border rounded ${page === currentPage ? "bg-blue-500 text-white" : "bg-white text-blue-500"
-            } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`;
-        if (!disabled) {
+        btn.innerHTML = content;
+        btn.disabled = isDisabled;
+        btn.className = `
+            pagination-font w-10 h-10 flex items-center justify-center border border-blue-500 
+            rounded-none text-[12px] font-normaltransition duration-300 ease-in-out transform
+            ${isActive ? "bg-blue-500 !text-white scale-100" : "bg-white text-blue-500 hover:bg-blue-100 hover:scale-105 hover:shadow-md"}
+            ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+        `;
+        if (!isDisabled) {
             btn.addEventListener("click", () => {
                 currentPage = page;
                 renderOfferPage(listContainerId, detailsContainerId);
@@ -35,13 +43,19 @@ const renderPagination = (totalPages, listContainerId, detailsContainerId) => {
         return btn;
     };
 
-    paginationContainer.appendChild(createButton("«", currentPage - 1, currentPage === 1));
+    paginationContainer.appendChild(
+        createButton(`<i class="fas fa-arrow-left"></i>`, currentPage - 1, false, currentPage === 1)
+    );
 
     for (let i = 1; i <= totalPages; i++) {
-        paginationContainer.appendChild(createButton(i, i));
+        paginationContainer.appendChild(
+            createButton(`${i}`, i, currentPage === i)
+        );
     }
 
-    paginationContainer.appendChild(createButton("»", currentPage + 1, currentPage === totalPages));
+    paginationContainer.appendChild(
+        createButton(`<i class="fas fa-arrow-right"></i>`, currentPage + 1, false, currentPage === totalPages)
+    );
 
     return paginationContainer;
 };
@@ -53,21 +67,36 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
         }
 
         const listContainer = document.getElementById(listContainerId);
-        const detailsContainer = document.getElementById(detailsContainerId);
+        if (!listContainer) {
+            console.error(`No se encontró el elemento con id "${listContainerId}"`);
+            return;
+        }
 
-        listContainer.innerHTML = '';
-        listContainer.classList.add("min-h-[550px]", "min-w-[400px]", "flex", "flex-col", "items-start");
-        detailsContainer.innerHTML = '<p class="text-gray-500">Select a offer to see more details.</p>';
+        const innerContainer = listContainer.querySelector("#offers-inner");
+        const paginationWrapper = listContainer.querySelector("#pagination-wrapper");
+
+        if (!innerContainer || !paginationWrapper) {
+            console.error(`No se encontraron los contenedores internos: #offers-inner o #pagination-wrapper`);
+            return;
+        }
+
+        innerContainer.innerHTML = "";
+        paginationWrapper.innerHTML = "";
+
+        const detailsContainer = document.getElementById(detailsContainerId);
+        if (detailsContainer) {
+            detailsContainer.innerHTML = '<p class="text-gray-500">Select a offer to see more details.</p>';
+        }
 
         const start = (currentPage - 1) * offersPerPage;
         const end = start + offersPerPage;
         const offersToShow = offersGlobal.slice(start, end);
 
         if (offersToShow.length === 0) {
-            listContainer.innerHTML = `
-                <div class="text-center text-gray-400 py-20">
-                    <i class="fas fa-search fa-2x mb-2"></i>
-                    <p>No job offers found</p>
+            innerContainer.innerHTML = `
+                <div class="text-center text-gray-400 py-20 w-full text-sm">
+                    <i class="fas fa-search fa-2x mb-2 block mx-auto"></i>
+                    <p class="text-center">No job offers found</p>
                 </div>
             `;
             return;
@@ -78,7 +107,7 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
             const workMode = offer.remote ? "Remote" : "On-Site";
 
             const button = document.createElement('button');
-            button.className = "w-full max-w-full min-w-[350px] text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition job-card";
+            button.className = "w-full max-w-full min-w-[350px] text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition job-card duration-300 ease-in-out animate-fade-in ";
             button.dataset.id = offer.id;
 
             button.innerHTML = `
@@ -91,30 +120,36 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
                 renderOfferDetails(offer, detailsContainer);
             });
 
-            listContainer.appendChild(button);
+            innerContainer.appendChild(button);
         }
 
         const totalPages = Math.ceil(offersGlobal.length / offersPerPage);
-        listContainer.appendChild(renderPagination(totalPages, listContainerId, detailsContainerId));
+        paginationWrapper.appendChild(renderPagination(totalPages, listContainerId, detailsContainerId));
     } catch (error) {
         console.error("Error loading job offers:", error);
-        document.getElementById(listContainerId).innerHTML =
-            '<p class="text-red-500">Error loading offers, please try again.</p>';
+        const listContainer = document.getElementById(listContainerId);
+        if (listContainer) {
+            listContainer.innerHTML = '<p class="text-red-500">Error loading offers, please try again.</p>';
+        }
     }
 };
+
 function closeOfferDetails() {
     const container = document.getElementById('offer-details');
-    container.classList.add('hidden');
-    container.classList.remove('slide-up');
+    if (container) {
+        container.classList.add('hidden');
+        container.classList.remove('slide-up');
+    }
     hideOverlay();
 }
-
 window.closeOfferDetails = closeOfferDetails;
 
 async function renderOfferDetails(offer, container) {
     if (!container) {
         container = document.getElementById('offer-details');
     }
+
+    if (!container) return;
 
     container.classList.remove('hidden');
     container.classList.remove('slide-up');
@@ -125,28 +160,35 @@ async function renderOfferDetails(offer, container) {
     const cityName = await fetchCityName(offer.idCity);
 
     container.innerHTML = `
-        <div class="relative bg-white p-6 rounded-lg shadow flex flex-col h-full job-card">
-            <button id="close-offer-btn"  class="absolute top-2 right-4 md:hidden text-black text-xl font-bold z-70">X</button>
-
-            <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
-            <p class="mb-1"><strong>Zone:</strong> ${cityName}</p>
-            <p class="mb-1"><strong>Modality:</strong> ${workMode}</p>
-            <p class="mb-1"><strong>Publication Date:</strong> ${postedDate}</p>
-            <p class="mb-1"><strong>Technologies:</strong> ${technologies}</p>
-            <p class="mt-4 whitespace-pre-line">${offer.description}</p>
-
-            <div class="mt-auto flex flex-col items-center border-t border-gray-200 py-4">
-                <hr class="w-[450px] border-black mb-4" />
-                <button id="download-pdf-btn" class="flex items-center text-black font-medium space-x-2 mt-2">
-                    <i class="fa-solid fa-file-pdf text-lg"></i>
-                    <span>Download PDF</span>
-                </button>
+        <div class="relative bg-white p-6 rounded-lg shadow h-full flex flex-col justify-between animate-fade-in job-card">
+            <button id="close-offer-btn" class="absolute top-2 right-4 md:hidden text-black text-xl font-bold z-70">X</button>
+            <div>
+                <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
+                <p class="mb-1"><strong>Zone:</strong> ${cityName}</p>
+                <p class="mb-1"><strong>Modality:</strong> ${workMode}</p>
+                <p class="mb-1"><strong>Publication Date:</strong> ${postedDate}</p>
+                <p class="mb-1"><strong>Technologies:</strong> ${technologies}</p>
+                <p class="mt-4 whitespace-pre-line">${offer.description}</p>
+                <div class="mt-auto flex flex-col items-center border-t border-gray-200 py-4">
+                    <hr class="w-[450px] border-black mb-4" />
+                    <button id="download-pdf-btn" class="flex items-center text-black font-medium space-x-2 mt-2">
+                        <i class="fa-solid fa-file-pdf text-lg"></i>
+                        <span>Download PDF</span>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <hr class="my-6 border-t border-gray-300" />
+                <div class="w-full flex justify-center text-gray-600 hover:text-gray-800 cursor-pointer text-sm"
+                     onclick="window.print()">
+                    <i class="fas fa-print mr-2"></i> imprimir
+                </div>
             </div>
         </div>
     `;
 
     const closeBtn = container.querySelector('#close-offer-btn');
-        closeBtn.addEventListener('click', closeOfferDetails);
+    if (closeBtn) closeBtn.addEventListener('click', closeOfferDetails);
 
     if (window.innerWidth <= 767) {
         container.classList.add('slide-up');
@@ -158,19 +200,19 @@ async function renderOfferDetails(offer, container) {
         lucide.createIcons();
     }
 }
-document.getElementById('overlay').addEventListener('click', closeOfferDetails);
+
+document.getElementById('overlay')?.addEventListener('click', closeOfferDetails);
 
 function showOverlay() {
-  const overlay = document.getElementById('overlay');
-  overlay.classList.remove('hidden');
+    const overlay = document.getElementById('overlay');
+    overlay?.classList.remove('hidden');
 }
 
 function hideOverlay() {
-  const overlay = document.getElementById('overlay');
-  overlay.classList.add('hidden');
+    const overlay = document.getElementById('overlay');
+    overlay?.classList.add('hidden');
 }
 
-// Delegación para cerrar los detalles de oferta(ojala sirva)
 document.addEventListener('click', (e) => {
     if (e.target && e.target.id === 'close-offer-btn') {
         closeOfferDetails();
@@ -184,5 +226,3 @@ export const setOffers = (newOffers) => {
 export const resetPage = () => {
     currentPage = 1;
 };
-
-
