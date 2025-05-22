@@ -41,7 +41,12 @@ export const initSearchBar = (searchInputId, searchButtonId, listContainerId, de
         return updatedOffers;
     };
 
-    const handleSearch = () => {
+    const handleSearch = (e) => {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
         const term = positionInput.value.trim().toLowerCase();
         const locationTerm = locationInput.value.trim().toLowerCase();
         const selectedMode = workModeSelect.value;
@@ -62,12 +67,30 @@ export const initSearchBar = (searchInputId, searchButtonId, listContainerId, de
     };
 
     // Reactive search: execute search on each input
-    positionInput.addEventListener("input", handleSearch);
-    locationInput.addEventListener("input", handleSearch);
-    workModeSelect.addEventListener("change", handleSearch);
+    positionInput.addEventListener("input", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleSearch();
+    });
+    
+    locationInput.addEventListener("input", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleSearch();
+    });
+    
+    workModeSelect.addEventListener("change", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleSearch();
+    });
 
     // Also keep button functionality
-    searchButton.addEventListener("click", handleSearch);
+    searchButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleSearch();
+    });
 
     fetchOffers(); // Initialize on load
 };

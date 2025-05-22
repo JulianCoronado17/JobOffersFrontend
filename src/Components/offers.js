@@ -18,7 +18,7 @@ const fetchCityName = async (cityId) => {
 
 const renderPagination = (totalPages, listContainerId, detailsContainerId) => {
     const paginationContainer = document.createElement("div");
-    paginationContainer.className = "flex justify-center mt-4 gap-1";
+    paginationContainer.className = "flex justify-center mt-4 gap-1 items-center";
 
     const createButton = (text, page, disabled = false) => {
         const btn = document.createElement("button");
@@ -27,7 +27,9 @@ const renderPagination = (totalPages, listContainerId, detailsContainerId) => {
         btn.className = `px-3 py-1 border rounded ${page === currentPage ? "bg-blue-500 text-white" : "bg-white text-blue-500"
             } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`;
         if (!disabled) {
-            btn.addEventListener("click", () => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 currentPage = page;
                 renderOfferPage(listContainerId, detailsContainerId);
             });
@@ -56,8 +58,19 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
         const detailsContainer = document.getElementById(detailsContainerId);
 
         listContainer.innerHTML = '';
-        listContainer.classList.add("min-h-[550px]", "min-w-[400px]", "flex", "flex-col", "items-start");
-        detailsContainer.innerHTML = '<p class="text-gray-500">Select a offer to see more details.</p>';
+        listContainer.classList.add("flex", "flex-col");
+
+        // No resetear el contenedor de detalles si ya tiene contenido
+        const hasOfferDetails = detailsContainer.innerHTML.includes('text-2xl font-bold');
+        if (!hasOfferDetails) {
+            detailsContainer.innerHTML = `
+            <div class="h-full w-full flex flex-col items-center justify-center text-center text-gray-500 px-4">
+                <i class="fas fa-briefcase fa-3x mb-4 text-[#50E3C2]"></i>
+                <p class="text-lg font-medium">Select an offer to see more details</p>
+                <p class="text-sm text-gray-400">Click on any job from the list to view its full description.</p>
+            </div>
+            `;
+                    }
 
         const start = (currentPage - 1) * offersPerPage;
         const end = start + offersPerPage;
@@ -78,7 +91,7 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
             const workMode = offer.remote ? "Remote" : "On-Site";
 
             const button = document.createElement('button');
-            button.className = "w-full max-w-full min-w-[350px] text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition job-card";
+            button.className = "w-80 text-left bg-white lg:w-96 border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition";
             button.dataset.id = offer.id;
 
             button.innerHTML = `
@@ -87,7 +100,9 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
                 <p class="text-sm text-gray-500">${workMode}</p>
             `;
 
-            button.addEventListener('click', () => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 renderOfferDetails(offer, detailsContainer);
             });
 
@@ -102,6 +117,7 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
             '<p class="text-red-500">Error loading offers, please try again.</p>';
     }
 };
+
 function closeOfferDetails() {
     const container = document.getElementById('offer-details');
     container.classList.add('hidden');
@@ -116,6 +132,7 @@ async function renderOfferDetails(offer, container) {
         container = document.getElementById('offer-details');
     }
 
+    // Remover clase job-card que puede causar conflictos
     container.classList.remove('hidden');
     container.classList.remove('slide-up');
 
@@ -125,28 +142,64 @@ async function renderOfferDetails(offer, container) {
     const cityName = await fetchCityName(offer.idCity);
 
     container.innerHTML = `
-        <div class="relative bg-white p-6 rounded-lg shadow flex flex-col h-full job-card">
-            <button id="close-offer-btn"  class="absolute top-2 right-4 md:hidden text-black text-xl font-bold z-70">X</button>
+    <div class="relative bg-white p-6 rounded-lg flex flex-col overflow-y-auto max-h-[390px] lg:max-h-[600px]">
+        <button id="close-offer-btn" class="absolute top-2 right-4 md:hidden text-black text-xl font-bold z-70">X</button>
 
-            <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
-            <p class="mb-1"><strong>Zone:</strong> ${cityName}</p>
-            <p class="mb-1"><strong>Modality:</strong> ${workMode}</p>
-            <p class="mb-1"><strong>Publication Date:</strong> ${postedDate}</p>
-            <p class="mb-1"><strong>Technologies:</strong> ${technologies}</p>
-            <p class="mt-4 whitespace-pre-line">${offer.description}</p>
-
-            <div class="mt-auto flex flex-col items-center border-t border-gray-200 py-4">
-                <hr class="w-[450px] border-black mb-4" />
-                <button id="download-pdf-btn" class="flex items-center text-black font-medium space-x-2 mt-2">
-                    <i class="fa-solid fa-file-pdf text-lg"></i>
-                    <span>Download PDF</span>
-                </button>
+        <h2 class="text-2xl font-bold mb-4 text-[#2C3E50]">${offer.tittle}</h2>
+        
+        <div class="grid gap-3 mb-4">
+            <div class="flex items-center">
+                <i class="fas fa-map-marker-alt text-[#50E3C2] w-5 mr-3"></i>
+                <p><span class="font-semibold text-[#34495E]">Zone:</span> ${cityName}</p>
+            </div>
+            
+            <div class="flex items-center">
+                <i class="fas fa-laptop-house text-[#50E3C2] w-5 mr-3"></i>
+                <p><span class="font-semibold text-[#34495E]">Modality:</span> ${workMode}</p>
+            </div>
+            
+            <div class="flex items-center">
+                <i class="fas fa-calendar-alt text-[#50E3C2] w-5 mr-3"></i>
+                <p><span class="font-semibold text-[#34495E]">Publication Date:</span> ${postedDate}</p>
+            </div>
+            
+            <div class="flex items-center">
+                <i class="fas fa-code text-[#50E3C2] w-5 mr-3"></i>
+                <p><span class="font-semibold text-[#34495E]">Technologies:</span> ${technologies}</p>
             </div>
         </div>
-    `;
+        <div class="mb-4">
+            <h3 class="text-lg font-semibold text-[#2C3E50] mb-2 flex items-center">
+                Description
+            </h3>
+            <p class="whitespace-pre-line text-[#34495E]">${offer.description}</p>
+        </div>
+        <div class="mt-auto flex flex-col items-center border-t border-gray-200 pt-4">
+            <button id="download-pdf-btn" class="flex items-center bg-gray-100 font-medium py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors">
+                <i class="fa-solid fa-print text-lg mr-2"></i>
+                <span>Download</span>
+            </button>
+        </div>
+    </div>
+`;
 
     const closeBtn = container.querySelector('#close-offer-btn');
-        closeBtn.addEventListener('click', closeOfferDetails);
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeOfferDetails();
+        });
+    }
+
+    const pdfBtn = document.getElementById("download-pdf-btn");
+    if (pdfBtn) {
+        pdfBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            downloadOfferAsPDF(offer);
+        });
+    }
 
     if (window.innerWidth <= 767) {
         container.classList.add('slide-up');
@@ -158,21 +211,31 @@ async function renderOfferDetails(offer, container) {
         lucide.createIcons();
     }
 }
-document.getElementById('overlay').addEventListener('click', closeOfferDetails);
+
+const overlayElement = document.getElementById('overlay');
+if (overlayElement) {
+    overlayElement.addEventListener('click', closeOfferDetails);
+}
 
 function showOverlay() {
-  const overlay = document.getElementById('overlay');
-  overlay.classList.remove('hidden');
+    const overlay = document.getElementById('overlay');
+    if (overlay) {
+        overlay.classList.remove('hidden');
+    }
 }
 
 function hideOverlay() {
-  const overlay = document.getElementById('overlay');
-  overlay.classList.add('hidden');
+    const overlay = document.getElementById('overlay');
+    if (overlay) {
+        overlay.classList.add('hidden');
+    }
 }
 
-// Delegación para cerrar los detalles de oferta(ojala sirva)
+// Delegación para cerrar los detalles de oferta
 document.addEventListener('click', (e) => {
     if (e.target && e.target.id === 'close-offer-btn') {
+        e.preventDefault();
+        e.stopPropagation();
         closeOfferDetails();
     }
 });
@@ -184,5 +247,3 @@ export const setOffers = (newOffers) => {
 export const resetPage = () => {
     currentPage = 1;
 };
-
-

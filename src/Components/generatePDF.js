@@ -4,36 +4,44 @@ export async function downloadOfferAsPDF(offer) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Configuración de colores y estilos
+    // Configuración de colores y estilos - PALETA MEJORADA
     const colors = {
-        primary: '#2563EB',      // Azul principal
-        secondary: '#64748B',    // Gris azulado
-        accent: '#059669',       // Verde esmeralda
-        text: '#374151',         // Gris oscuro
-        lightGray: '#F8FAFC',    // Gris muy claro
-        border: '#E2E8F0'        // Gris para bordes
+        primary: '#2C3E50',       // Azul oscuro profesional (para encabezados)
+        secondary: '#50E3C2',     // Verde agua (de tu diseño, para acentos)
+        accent: '#3498DB',        // Azul brillante (para elementos importantes)
+        text: '#34495E',          // Gris azulado oscuro (para texto principal)
+        lightGray: '#F8F9FA',     // Gris muy claro (fondos de secciones)
+        border: '#E0E0E0',        // Gris claro para bordes
+        headerBg: '#FFFFFF',      // Blanco para el fondo del encabezado
+        headerText: '#2C3E50',    // Texto del encabezado
+        footerText: '#7F8C8D'     // Gris para texto de footer
     };
 
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
     let yPosition = 20;
 
-    // Función para agregar header con estilo
+    // Función para agregar header con estilo mejorado
     function addHeader() {
-        // Rectángulo de fondo para el header
-        doc.setFillColor(colors.primary);
+        // Fondo blanco en lugar de coloreado
+        doc.setFillColor(colors.headerBg);
         doc.rect(0, 0, pageWidth, 40, 'F');
         
-        // Título principal
-        doc.setTextColor('#FFFFFF');
+        // Título principal con nuevo color
+        doc.setTextColor(colors.headerText);
         doc.setFontSize(24);
         doc.setFont('helvetica', 'bold');
         doc.text('Job Offer Details', pageWidth / 2, 25, { align: 'center' });
         
+        // Línea decorativa con el verde agua
+        doc.setDrawColor(colors.secondary);
+        doc.setLineWidth(1.5);
+        doc.line(50, 32, pageWidth - 50, 32);
+        
         yPosition = 55;
     }
 
-    // Función para agregar una sección con estilo
+    // Función para agregar una sección con estilo mejorado
     function addSection(title, content, isDescription = false) {
         // Verificar si necesitamos una nueva página
         if (yPosition > pageHeight - 40) {
@@ -41,14 +49,20 @@ export async function downloadOfferAsPDF(offer) {
             yPosition = 20;
         }
 
-        // Título de la sección
+        // Fondo de sección más sutil
         doc.setFillColor(colors.lightGray);
-        doc.rect(15, yPosition - 5, pageWidth - 30, 15, 'F');
+        doc.roundedRect(15, yPosition - 5, pageWidth - 30, 15, 3, 3, 'F');
         
+        // Título de sección en azul oscuro
         doc.setTextColor(colors.primary);
         doc.setFontSize(14);
         doc.setFont('helvetica', 'bold');
         doc.text(title, 20, yPosition + 5);
+        
+        // Pequeña línea decorativa en verde agua
+        doc.setDrawColor(colors.secondary);
+        doc.setLineWidth(0.8);
+        doc.line(20, yPosition + 8, 40, yPosition + 8);
         
         yPosition += 20;
 
@@ -79,9 +93,9 @@ export async function downloadOfferAsPDF(offer) {
         
         // Columna izquierda
         doc.setFillColor(colors.lightGray);
-        doc.rect(15, yPosition - 5, columnWidth, 25, 'F');
+        doc.roundedRect(15, yPosition - 5, columnWidth, 25, 3, 3, 'F');
         
-        doc.setTextColor(colors.primary);
+        doc.setTextColor(colors.accent);
         doc.setFontSize(12);
         doc.setFont('helvetica', 'bold');
         doc.text(leftTitle, 20, yPosition + 3);
@@ -93,9 +107,9 @@ export async function downloadOfferAsPDF(offer) {
 
         // Columna derecha
         doc.setFillColor(colors.lightGray);
-        doc.rect(25 + columnWidth, yPosition - 5, columnWidth, 25, 'F');
+        doc.roundedRect(25 + columnWidth, yPosition - 5, columnWidth, 25, 3, 3, 'F');
         
-        doc.setTextColor(colors.primary);
+        doc.setTextColor(colors.accent);
         doc.setFontSize(12);
         doc.setFont('helvetica', 'bold');
         doc.text(rightTitle, 30 + columnWidth, yPosition + 3);
@@ -117,12 +131,17 @@ export async function downloadOfferAsPDF(offer) {
 
         // Título de la sección
         doc.setFillColor(colors.lightGray);
-        doc.rect(15, yPosition - 5, pageWidth - 30, 15, 'F');
+        doc.roundedRect(15, yPosition - 5, pageWidth - 30, 15, 3, 3, 'F');
         
         doc.setTextColor(colors.primary);
         doc.setFontSize(14);
         doc.setFont('helvetica', 'bold');
         doc.text('Required Technologies', 20, yPosition + 5);
+        
+        // Línea decorativa
+        doc.setDrawColor(colors.secondary);
+        doc.setLineWidth(0.8);
+        doc.line(20, yPosition + 8, 40, yPosition + 8);
         
         yPosition += 25;
 
@@ -141,8 +160,8 @@ export async function downloadOfferAsPDF(offer) {
                 lineHeight = 0;
             }
 
-            // Dibujar el tag
-            doc.setFillColor(colors.accent);
+            // Dibujar el tag (usando el verde agua)
+            doc.setFillColor(colors.secondary);
             doc.roundedRect(xPosition, yPosition - 8, textWidth, 12, 2, 2, 'F');
             
             // Texto del tag
@@ -158,7 +177,7 @@ export async function downloadOfferAsPDF(offer) {
         yPosition += Math.max(lineHeight, 12) + 15;
     }
 
-    // Función para agregar footer
+    // Función para agregar footer mejorado
     function addFooter() {
         const footerY = pageHeight - 20;
         
@@ -168,11 +187,11 @@ export async function downloadOfferAsPDF(offer) {
         doc.line(15, footerY - 5, pageWidth - 15, footerY - 5);
         
         // Texto del footer
-        doc.setTextColor(colors.secondary);
+        doc.setTextColor(colors.footerText);
         doc.setFontSize(8);
         doc.setFont('helvetica', 'normal');
         doc.text(`Generated on ${new Date().toLocaleDateString()}`, 20, footerY);
-        doc.text(`Page 1 of 1`, pageWidth - 20, footerY, { align: 'right' });
+        doc.text(`Page ${doc.internal.getNumberOfPages()}`, pageWidth - 20, footerY, { align: 'right' });
     }
 
     // Obtener datos
@@ -186,7 +205,7 @@ export async function downloadOfferAsPDF(offer) {
     
     // Título de la oferta con estilo especial
     doc.setFillColor(colors.accent);
-    doc.rect(15, yPosition - 8, pageWidth - 30, 20, 'F');
+    doc.roundedRect(15, yPosition - 8, pageWidth - 30, 20, 3, 3, 'F');
     doc.setTextColor('#FFFFFF');
     doc.setFontSize(16);
     doc.setFont('helvetica', 'bold');

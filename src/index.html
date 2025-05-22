@@ -7,62 +7,6 @@
   <title>Job offers View</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <style>
-    .job-list-container {
-      min-height: 550px;
-      height: 550px;
-      min-width: 400px;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .job-card {
-      min-height: 120px;
-      height: 120px;
-      width: 100%;
-    }
-
-    .offer-details-container {
-      min-height: 550px;
-      height: 550px;
-      min-width: 400px;
-      width: 100%;
-    }
-
-    .job-details-card {
-      min-height: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .line-clamp-1 {
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    @media (max-width: 767px) {
-      .offer-details-container {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 75%;
-        z-index: 50;
-      }
-      
-      .slide-up {
-        animation: slideUp 0.3s ease-out forwards;
-      }
-      
-      @keyframes slideUp {
-        from { transform: translateY(100%); }
-        to { transform: translateY(0); }
-      }
-    }
-  </style>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script type="module">
@@ -89,12 +33,10 @@
         const details = document.getElementById('offer-details');
 
         if (window.innerWidth <= 767) {
-          // Mobile mode: slide up from bottom
           details.classList.remove('hidden');
           details.classList.add('slide-up');
           document.getElementById('overlay').classList.remove('hidden');
         } else {
-          // Desktop mode: normal display
           details.classList.remove('hidden');
           details.classList.remove('slide-up');
         }
@@ -133,71 +75,61 @@
     </div>
   </section>
 
-  <section class="px-4 w-auto" id="vacancies">
-    <div class="relative flex flex-col items-center mb-5 w-auto overflow-hidden">
+  <section class="px-4 w-auto mt-14" id="vacancies">
+    <div class="relative flex flex-col items-center mb-5 w-auto overflow-hidden h-screen">
       <br>
       <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 md:mb-6 pt-4 md:pt-0">
         Vacancies
       </h2>
-      <div class="h-1 w-48 md:w-96 max-w-full mb-8 md:mb-8 rounded-full"
+      <div class="h-1 w-96 md:w-96 ms:w-1 border border-[#50E3C2] border-2 shadow-lg rounded-full"
         style="background-color: #50E3C2; box-shadow: 0 4px 6px -1px #50E3C2;">
       </div>
       <div class="flex flex-col items-center gap-4 w-full mt-6">
         <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mb-8">
-          <!-- Combined position and location input + search button -->
           <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl">
-            <!-- Combined container with rounded borders -->
             <div
               class="relative w-full md:w-2/3 flex rounded-full border border-gray-300 bg-white overflow-hidden shadow-sm">
-              <!-- Icon + position input -->
               <div class="flex items-center flex-1 px-3">
                 <i class="fas fa-briefcase text-gray-400 mr-2"></i>
                 <input type="text" id="position-input" placeholder="Position or category"
-                  class="w-full py-2 focus:outline-none" />
+                  class="w-full py-2 focus:outline-none truncate" />
               </div>
-
-              <!-- Vertical separator -->
               <div class="w-px bg-gray-300 my-2"></div>
 
-              <!-- Icon + location input -->
               <div class="flex items-center flex-1 px-3">
                 <i class="fas fa-map-marker-alt text-gray-400 mr-2"></i>
                 <input type="text" id="location-input" placeholder="Location" class="w-full py-2 focus:outline-none" />
               </div>
 
-              <!-- Search button -->
               <button id="search-button" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-3 py-2">
                 <i class="fas fa-search"></i>
               </button>
             </div>
           </div>
 
-          <!-- Workplace filter -->
           <div class="w-full max-w-xs">
-            <select id="work-mode-select"
-              class="w-full border border-gray-300 rounded-lg px-4 py-0 focus:outline-none focus:ring-2 focus:ring-teal-400">
-              <option selected>Place of Work</option>
+            <select
+              id="work-mode-select"
+              class="w-full border border-gray-300 text-gray-700 bg-white rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#50E3C2] focus:border-[#50E3C2] transition">
+              <option selected>Work or place</option>
               <option value="remoto">Remote</option>
               <option value="presencial">On-site</option>
             </select>
           </div>
+          
         </div>
       </div>
 
-      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="flex flex-col">
-          <div class="mb-6"></div>
-          <div id="offers-list" class="space-y-4 overflow-y-auto min-h-[550px] min-w-[400px] flex flex-col items-start">
+      <div class=" h-[510px] grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col max-h-[400px] lg:max-h-[1200px]">
+          <div id="offers-list" class="h-full overflow-y-auto flex flex-col items-center">
           </div>
         </div>
 
         <div id="overlay" class="fixed inset-0 bg-black opacity-50 z-40 hidden"></div>
-
-
-        <!-- Reusable container for mobile and desktop -->
+        
         <div id="offer-details"
-          class="hidden fixed bottom-0 left-0 w-full h-[75%] bg-white z-50 shadow-lg rounded-t-2xl p-6 overflow-y-auto md:static md:block md:h-auto md:w-auto md:rounded-none md:shadow-none">
-          <!-- Offer details will be inserted here -->
+          class="hidden fixed bottom-0 left-0 w-full h-[80%] bg-white lg:max-w-[400px] z-50 shadow-lg rounded-t-2xl p-6 overflow-y-auto md:static md:flex md:h-auto md:w-auto md:rounded-none md:shadow-none rounded-lg">
         </div>
       </div>
     </div>
