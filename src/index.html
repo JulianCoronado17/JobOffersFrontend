@@ -2,48 +2,130 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Job offers View</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-  <!-- ABeeZee Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    .job-list-container {
+      min-height: 550px;
+      height: 550px;
+      min-width: 400px;
+      width: 100%;
+      max-width: 400px;
+    }
 
+    .job-card {
+      min-height: 120px;
+      height: 120px;
+      width: 100%;
+    }
+
+    .offer-details-container {
+      min-height: 550px;
+      height: 550px;
+      min-width: 400px;
+      width: 100%;
+    }
+
+    .job-details-card {
+      min-height: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .line-clamp-1 {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    @media (max-width: 767px) {
+      .offer-details-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 75%;
+        z-index: 50;
+      }
+
+      .slide-up {
+        animation: slideUp 0.3s ease-out forwards;
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+        }
+
+        to {
+          transform: translateY(0);
+        }
+      }
+    }
+  </style>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
+
   <script type="module">
     import { renderNavbar } from './Components/navbar.js';
     renderNavbar();
   </script>
+
   <script type="module">
     import { renderOfferPage } from './Components/offers.js';
     document.addEventListener('DOMContentLoaded', () => {
       renderOfferPage('offers-list', 'offer-details');
     });
   </script>
+
   <script type="module">
     import { initSearchBar } from './Components/searchInput.js';
     document.addEventListener('DOMContentLoaded', () => {
       initSearchBar('position-input', 'search-button', 'offers-list', 'offer-details');
     });
   </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <script>
-    document.querySelectorAll('.job-card').forEach(card => {
-      card.addEventListener('click', () => {
+    document.addEventListener('click', function (event) {
+      const card = event.target.closest('.job-card');
+      if (card) {
         const details = document.getElementById('offer-details');
-        details.classList.remove('hidden');
-        details.classList.add('slide-up');
-      });
+
+        if (window.innerWidth <= 767) {
+          details.classList.remove('hidden');
+          details.classList.add('slide-up');
+          document.getElementById('overlay').classList.remove('hidden');
+        } else {
+          details.classList.remove('hidden');
+          details.classList.remove('slide-up');
+        }
+      }
     });
+
+    function closeOfferDetails() {
+      const container = document.getElementById('offer-details');
+      container.classList.add('hidden');
+      container.classList.remove('slide-up');
+      document.getElementById('overlay').classList.add('hidden');
+    }
   </script>
 </head>
 
 <body class="bg-gray-50 text-gray-800">
   <section class="relative w-full h-screen hero-image hidden md:block">
-    <header class="sticky top-0 z-50 text-white px-10 py-4 flex justify-between items-center backdrop-blur-sm bg-[#333333]/40">
+    <header
+      class="sticky top-0 z-50 text-white px-10 py-4 flex justify-between items-center backdrop-blur-sm bg-[#333333]/40">
       <div class="text-2xl md:text-3xl font-bold tracking-wide">Logo</div>
       <button onclick="document.getElementById('vacancies').scrollIntoView({behavior: 'smooth'})"
         class="hidden md:inline-flex items-center justify-center text-white font-semibold bg-gradient-to-r from-[#50E3C2] to-[#4A90E2] px-8 py-3 rounded-full text-base md:text-lg transition-all hover:opacity-90">
@@ -54,59 +136,78 @@
       <button onclick="document.getElementById('vacancies').scrollIntoView({behavior: 'smooth'})"
         class="flex flex-col items-center text-white bounce">
         <span class="mb-2">Scroll Down</span>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down">
           <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
       </button>
     </div>
   </section>
 
-  <section class="px-4 sm:px-6 lg:px-8" id="vacancies">
-    <div class="relative flex flex-col items-center mb-5">
-      <br>
+  <section class="px-4 w-auto" id="vacancies">
+    <div class="relative flex flex-col items-center mb-5 w-auto overflow-hidden">
+      <br />
       <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 md:mb-6 pt-4 md:pt-0">
         Vacancies
       </h2>
-      <div class="h-1 w-48 md:w-96 max-w-full mb-8 md:mb-8 rounded-full" style="background-color: #50E3C2; box-shadow: 0 4px 6px -1px #50E3C2;"></div>
+      <div class="h-1 w-48 md:w-96 max-w-full mb-8 md:mb-8 rounded-full"
+        style="background-color: #50E3C2; box-shadow: 0 4px 6px -1px #50E3C2;"></div>
+
+      <!-- Search -->
       <div class="flex flex-col items-center gap-4 w-full mt-6">
         <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mb-8">
           <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl">
-            <div class="relative w-full md:w-2/3 flex rounded-full border border-gray-300 bg-white overflow-hidden shadow-sm">
+            <div
+              class="relative w-full md:w-2/3 flex rounded-full border border-gray-300 bg-white overflow-hidden shadow-sm">
               <div class="flex items-center flex-1 px-3">
                 <i class="fas fa-briefcase text-gray-400 mr-2"></i>
-                <input type="text" id="position-input" placeholder="Position or category" class="w-full py-2 focus:outline-none" />
+                <input type="text" id="position-input" placeholder="Position or category"
+                  class="w-full py-2 focus:outline-none" />
               </div>
               <div class="w-px bg-gray-300 my-2"></div>
               <div class="flex items-center flex-1 px-3">
                 <i class="fas fa-map-marker-alt text-gray-400 mr-2"></i>
-                <input type="text" id="location-input" placeholder="Location" class="w-full py-2 focus:outline-none" />
+                <input type="text" id="location-input" placeholder="Location"
+                  class="w-full py-2 focus:outline-none" />
               </div>
               <button id="search-button" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-3 py-2">
                 <i class="fas fa-search"></i>
               </button>
             </div>
           </div>
+
+          <!-- Workplace filter -->
           <div class="w-full max-w-xs">
-            <select id="work-mode-select" class="w-full border border-gray-300 rounded-lg px-4 py-0 focus:outline-none focus:ring-2 focus:ring-teal-400">
+            <select id="work-mode-select"
+              class="w-full border border-gray-300 rounded-lg px-4 py-0 focus:outline-none focus:ring-2 focus:ring-teal-400">
               <option selected>Place of Work</option>
-              <option value="remoto">Remoto</option>
-              <option value="presencial">Presencial</option>
+              <option value="remoto">Remote</option>
+              <option value="presencial">On-site</option>
             </select>
           </div>
         </div>
       </div>
 
-      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="space-y-4 flex flex-col">
+      <!-- Job offers list + details -->
+      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col">
           <div class="mb-6"></div>
-          <div id="offers-list" class="h-[600px] min-w-[400px] flex flex-col justify-between items-start px-2 py-4 border border-transparent">
-            <div id="offers-inner" class="flex flex-col gap-4 w-full"></div>
-            <div id="pagination-wrapper" class="pt-4 w-full flex justify-center pagination-font"></div>
+          <div id="offers-list"
+            class="space-y-4 overflow-y-auto min-h-[550px] min-w-[400px] flex flex-col items-start">
+            <!-- ✅ Contenedores requeridos por offers.js -->
+            <div id="offers-inner" class="w-full flex flex-col gap-2"></div>
+            <div id="pagination-wrapper" class="w-full flex justify-center mt-4"></div>
           </div>
         </div>
-        <div id="offer-details" class="hidden fixed bottom-0 left-0 w-full h-[75%] bg-white z-50 shadow-lg rounded-t-2xl p-4 md:static md:block md:h-auto md:w-[480px] md:max-w-[90%] md:rounded-none"></div>
+
+        <div id="overlay" class="fixed inset-0 bg-black opacity-50 z-40 hidden"></div>
+
+        <div id="offer-details"
+          class="hidden fixed bottom-0 left-0 w-full h-[75%] bg-white z-50 shadow-lg rounded-t-2xl p-6 overflow-y-auto md:static md:block md:h-auto md:w-auto md:rounded-none md:shadow-none">
+          <!-- Offer details will be inserted here -->
+        </div>
       </div>
-      <br><br><br>
+    </div>
   </section>
 </body>
 

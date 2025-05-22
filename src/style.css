@@ -12,18 +12,25 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
+  overflow: hidden;
+  overflow: auto;
   overflow: hidden;
   overflow: auto;
 }
 
 body::-webkit-scrollbar {
   display: none;
+  display: none;
 }
 
 .hero-image {
+  background-image: url('../public/images/ImagenPrincipal.avif');
+  background-size: cover;
+  background-position: center;
   background-image: url('../public/images/ImagenPrincipal.avif');
   background-size: cover;
   background-position: center;
@@ -35,7 +42,7 @@ body::-webkit-scrollbar {
 
 .input-separator {
   width: 1px;
-  background-color: #D1D5DB; /* Tailwind gray-300 */
+  background-color: #D1D5DB;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
@@ -88,6 +95,9 @@ body::-webkit-scrollbar {
 }
 
 @media screen and (max-width: 420px) {
+  .slide-up {
+    animation: slideUp 0.3s ease-out forwards;
+  }
   .slide-up {
     animation: slideUp 0.3s ease-out forwards;
   }

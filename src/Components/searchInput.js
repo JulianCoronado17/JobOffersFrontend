@@ -78,12 +78,12 @@ export const initSearchBar = (searchInputId, searchButtonId, listContainerId, de
     renderOfferPage(listContainerId, detailsContainerId);
 };
 
-
-    // 🔄 Reactive search: filters as user types
+    // Reactive search: execute search on each input
     positionInput.addEventListener("input", handleSearch);
     locationInput.addEventListener("input", handleSearch);
     workModeSelect.addEventListener("change", handleSearch);
-    // 🔍 Search button click event
+
+    // Also keep button functionality
     searchButton.addEventListener("click", handleSearch);
 
     fetchOffers(); // Initialize on load
