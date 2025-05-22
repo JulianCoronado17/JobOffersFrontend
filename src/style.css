@@ -58,3 +58,7 @@ body::-webkit-scrollbar {
     }
   }
 }
+
+#overlay {
+  z-index: 40; 
+}

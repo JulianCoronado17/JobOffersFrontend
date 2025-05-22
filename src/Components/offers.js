@@ -102,6 +102,14 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
             '<p class="text-red-500">Error loading offers, please try again.</p>';
     }
 };
+function closeOfferDetails() {
+    const container = document.getElementById('offer-details');
+    container.classList.add('hidden');
+    container.classList.remove('slide-up');
+    hideOverlay();
+}
+
+window.closeOfferDetails = closeOfferDetails;
 
 async function renderOfferDetails(offer, container) {
     if (!container) {
@@ -117,8 +125,8 @@ async function renderOfferDetails(offer, container) {
     const cityName = await fetchCityName(offer.idCity);
 
     container.innerHTML = `
-        <div class="bg-white p-6 rounded-lg shadow flex flex-col h-full job-card relative">
-            <button onclick="closeOfferDetails()" class="absolute top-2 right-4 md:hidden text-black text-xl font-bold z-50">×</button>
+        <div class="relative bg-white p-6 rounded-lg shadow flex flex-col h-full job-card">
+            <button id="close-offer-btn"  class="absolute top-2 right-4 md:hidden text-black text-xl font-bold z-70">X</button>
 
             <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
             <p class="mb-1"><strong>Zone:</strong> ${cityName}</p>
@@ -137,16 +145,37 @@ async function renderOfferDetails(offer, container) {
         </div>
     `;
 
+    const closeBtn = container.querySelector('#close-offer-btn');
+        closeBtn.addEventListener('click', closeOfferDetails);
+
     if (window.innerWidth <= 767) {
         container.classList.add('slide-up');
         container.classList.remove('hidden');
-        document.getElementById('overlay').classList.remove('hidden');
+        showOverlay();
     }
 
     if (typeof lucide !== 'undefined' && lucide.createIcons) {
         lucide.createIcons();
     }
 }
+document.getElementById('overlay').addEventListener('click', closeOfferDetails);
+
+function showOverlay() {
+  const overlay = document.getElementById('overlay');
+  overlay.classList.remove('hidden');
+}
+
+function hideOverlay() {
+  const overlay = document.getElementById('overlay');
+  overlay.classList.add('hidden');
+}
+
+// Delegación para cerrar los detalles de oferta(ojala sirva)
+document.addEventListener('click', (e) => {
+    if (e.target && e.target.id === 'close-offer-btn') {
+        closeOfferDetails();
+    }
+});
 
 export const setOffers = (newOffers) => {
     offersGlobal = newOffers;
@@ -155,3 +184,5 @@ export const setOffers = (newOffers) => {
 export const resetPage = () => {
     currentPage = 1;
 };
+
+
