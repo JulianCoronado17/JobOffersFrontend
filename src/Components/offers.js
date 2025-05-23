@@ -1,4 +1,3 @@
-// ✅ OFFERS.JS COMPLETO CON VERIFICACIONES
 
 import { getAllOffers, getCityWithID } from '../service/offersService.js';
 import { downloadOfferAsPDF } from './generatePDF.js';
@@ -84,8 +83,13 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
         paginationWrapper.innerHTML = "";
 
         const detailsContainer = document.getElementById(detailsContainerId);
-        if (detailsContainer) {
-            detailsContainer.innerHTML = '<p class="text-gray-500">Select a offer to see more details.</p>';
+        if (detailsContainer && !detailsContainer.querySelector('.job-details-card') && !detailsContainer.querySelector('#offer-placeholder')) {
+            detailsContainer.innerHTML = `
+                <div id="offer-placeholder" class="text-center text-gray-400 py-20 w-full text-sm flex flex-col items-center justify-center h-full">
+                    <i class="fas fa-clipboard-list fa-2x mb-2 block"></i>
+                    <p class="text-center text-gray-500 text-base">Select a job offer to view details</p>
+                </div>
+            `;
         }
 
         const start = (currentPage - 1) * offersPerPage;
@@ -149,7 +153,8 @@ async function renderOfferDetails(offer, container) {
         container = document.getElementById('offer-details');
     }
 
-    if (!container) return;
+    const placeholder = container.querySelector('#offer-placeholder');
+    if (placeholder) placeholder.remove();
 
     container.classList.remove('hidden');
     container.classList.remove('slide-up');
@@ -160,7 +165,7 @@ async function renderOfferDetails(offer, container) {
     const cityName = await fetchCityName(offer.idCity);
 
     container.innerHTML = `
-        <div class="relative bg-white p-6 rounded-lg shadow h-full flex flex-col justify-between animate-fade-in job-card">
+        <div class="relative bg-white p-6 rounded-lg shadow h-full flex flex-col justify-between animate-fade-in job-card job-details-card">
             <button id="close-offer-btn" class="absolute top-2 right-4 md:hidden text-black text-xl font-bold z-70">X</button>
             <div>
                 <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
@@ -179,9 +184,15 @@ async function renderOfferDetails(offer, container) {
             </div>
             <div>
                 <hr class="my-6 border-t border-gray-300" />
-                <div class="w-full flex justify-center text-gray-600 hover:text-gray-800 cursor-pointer text-sm"
+                <div class="w-full text-gray-600 hover:text-gray-800 cursor-pointer text-sm"
                      onclick="window.print()">
-                    <i class="fas fa-print mr-2"></i> imprimir
+                  <div class="md:hidden w-full flex justify-end pr-4">
+                    <i class="fas fa-print text-xl"></i>
+                  </div>
+                  <div class="hidden md:flex justify-center items-center">
+                    <i class="fas fa-print mr-2"></i>
+                    <span>Print</span>
+                  </div>
                 </div>
             </div>
         </div>
