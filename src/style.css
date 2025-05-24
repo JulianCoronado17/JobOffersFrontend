@@ -1,3 +1,4 @@
+/* Animación rebote */
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
@@ -10,36 +11,34 @@
   }
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-behavior: smooth;
-}
-
-body {
-  overflow: hidden;
-  overflow: auto;
-  overflow: hidden;
-  overflow: auto;
-}
-
-body::-webkit-scrollbar {
-  display: none;
-  display: none;
-}
-
-.hero-image {
-  background-image: url('../public/images/ImagenPrincipal.avif');
-  background-size: cover;
-  background-position: center;
-  background-image: url('../public/images/ImagenPrincipal.avif');
-  background-size: cover;
-  background-position: center;
-}
-
 .bounce {
   animation: bounce 2s infinite;
 }
 
+/* Animación de fade-in */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+/* Hero background */
+.hero-image {
+  background-image: url('../public/images/ImagenPrincipal.avif');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Separador en inputs */
 .input-separator {
   width: 1px;
   background-color: #D1D5DB;
@@ -47,11 +46,22 @@ body::-webkit-scrollbar {
   margin-bottom: 0.5rem;
 }
 
+/* Tamaño específico */
 .w-full.max-w-xs {
   max-width: 10rem;
 }
 
-/* For pagination Buttons. */
+/* Scroll suave */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ocultar scrollbar (solo WebKit) */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Fuente de paginación */
 .pagination-font {
   font-family: 'ABeeZee', sans-serif;
   font-weight: 400;
@@ -61,6 +71,7 @@ body::-webkit-scrollbar {
   vertical-align: middle;
 }
 
+/* Estilos de impresión */
 @media print {
   body * {
     visibility: hidden;
@@ -78,30 +89,9 @@ body::-webkit-scrollbar {
   }
 }
 
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.3s ease-in-out;
-}
-
-@media screen and (max-width: 420px) {
-  .slide-up {
-    animation: slideUp 0.3s ease-out forwards;
-  }
-  .slide-up {
-    animation: slideUp 0.3s ease-out forwards;
-  }
-
+/* Estilos responsivos */
+@media screen and (max-width: 767px) {
+  /* Slide up para modal */
   @keyframes slideUp {
     from {
       transform: translateY(100%);
@@ -109,5 +99,18 @@ body::-webkit-scrollbar {
     to {
       transform: translateY(25%);
     }
+  }
+
+  .slide-up {
+    animation: slideUp 0.3s ease-out forwards;
+  }
+
+  /* Ajustes de ancho */
+  #offers-list,
+  #offers-inner,
+  #pagination-wrapper,
+  .job-card,
+  .offer-list-mobile {
+    width: 100% !important;
   }
 }
