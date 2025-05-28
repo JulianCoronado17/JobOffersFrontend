@@ -115,10 +115,16 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
             button.dataset.id = offer.id;
 
             button.innerHTML = `
-                <h2 class="text-lg font-semibold">${offer.tittle}</h2>
-                <p class="text-sm text-gray-600">Zone: ${cityName}</p>
-                <p class="text-sm text-gray-500">${workMode}</p>
-            `;
+  <h2 class="text-lg font-semibold">${offer.tittle}</h2>
+  <div class="flex items-center gap-2 text-sm text-gray-700">
+    <i class="fas fa-map-marker-alt text-gray-800 w-4"></i> ${cityName}
+  </div>
+  <div class="flex items-center gap-2 text-sm text-gray-700">
+    <i class="fas fa-briefcase text-gray-800 w-4"></i> ${workMode}
+  </div>
+`;
+
+
 
             button.addEventListener('click', () => {
                 renderOfferDetails(offer, detailsContainer);
@@ -165,38 +171,34 @@ async function renderOfferDetails(offer, container) {
     const cityName = await fetchCityName(offer.idCity);
 
     container.innerHTML = `
-        <div class="relative bg-white p-6 rounded-lg shadow h-full flex flex-col justify-between animate-fade-in job-card job-details-card">
-            <button id="close-offer-btn" class="absolute top-2 right-4 md:hidden text-black text-xl font-bold z-70">X</button>
-            <div>
-                <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
-                <p class="mb-1"><strong>Zone:</strong> ${cityName}</p>
-                <p class="mb-1"><strong>Modality:</strong> ${workMode}</p>
-                <p class="mb-1"><strong>Publication Date:</strong> ${postedDate}</p>
-                <p class="mb-1"><strong>Technologies:</strong> ${technologies}</p>
-                <p class="mt-4 whitespace-pre-line">${offer.description}</p>
-                <div class="mt-auto flex flex-col items-center border-t border-gray-200 py-4">
-                    <hr class="w-[450px] border-black mb-4" />
-                    <button id="download-pdf-btn" class="flex items-center text-black font-medium space-x-2 mt-2">
-                        <i class="fa-solid fa-file-pdf text-lg"></i>
-                        <span>Download PDF</span>
-                    </button>
-                </div>
-            </div>
-            <div>
-                <hr class="my-6 border-t border-gray-300" />
-                <div class="w-full text-gray-600 hover:text-gray-800 cursor-pointer text-sm"
-                     onclick="window.print()">
-                  <div class="md:hidden w-full flex justify-end pr-4">
-                    <i class="fas fa-print text-xl"></i>
-                  </div>
-                  <div class="hidden md:flex justify-center items-center">
-                    <i class="fas fa-print mr-2"></i>
-                    <span>Print</span>
-                  </div>
-                </div>
-            </div>
-        </div>
-    `;
+  <div class="relative bg-white p-6 rounded-lg shadow h-full flex flex-col justify-between animate-fade-in job-card">
+    <button id="close-offer-btn" class="absolute top-2 right-4 md:hidden text-black text-xl font-bold z-70">X</button>
+    <div>
+      <h2 class="text-2xl font-bold mb-2">${offer.tittle}</h2>
+      <p class="mb-1 flex items-center gap-2 text-gray-700"><i class="fas fa-map-marker-alt text-gray-800 w-5"></i> ${cityName}</p>
+<p class="mb-1 flex items-center gap-2 text-gray-700"><i class="fas fa-briefcase text-gray-800 w-5"></i> ${workMode}</p>
+<p class="mb-1 flex items-center gap-2 text-gray-700"><i class="fas fa-clock text-gray-800 w-5"></i> ${postedDate}</p>
+<p class="mb-1 flex items-center gap-2 text-gray-700"><i class="fas fa-code text-gray-800 w-5"></i> ${technologies}</p>
+
+      <p class="mt-4 whitespace-pre-line text-gray-800">${offer.description}</p>
+      <div class="mt-auto flex flex-col items-center border-t border-gray-200 py-4">
+        <hr class="w-[450px] border-black mb-4" />
+        <button id="download-pdf-btn" class="flex items-center text-black font-medium space-x-2 mt-2">
+          <i class="fa-solid fa-file-pdf text-lg"></i>
+          <span>Download PDF</span>
+        </button>
+      </div>
+    </div>
+    <div>
+      <hr class="my-6 border-t border-gray-300" />
+      <div class="w-full flex justify-center text-gray-600 hover:text-gray-800 cursor-pointer text-sm"
+           onclick="window.print()">
+        <i class="fas fa-print mr-2"></i> imprimir
+      </div>
+    </div>
+  </div>
+`;
+
 
     const closeBtn = container.querySelector('#close-offer-btn');
     if (closeBtn) closeBtn.addEventListener('click', closeOfferDetails);
