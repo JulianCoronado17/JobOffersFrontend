@@ -1,0 +1,138 @@
+/* Animación rebote */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+
+.bounce {
+  animation: bounce 2s infinite;
+}
+
+/* Animación de fade-in */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+/* Hero background */
+.hero-image {
+  background-image: url('../public/images/ImagenPrincipal.avif');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Separador en inputs */
+.input-separator {
+  width: 1px;
+  background-color: #D1D5DB;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Tamaño específico */
+.w-full.max-w-xs {
+  max-width: 10rem;
+}
+
+/* Scroll suave */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ocultar scrollbar (solo WebKit) */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Fuente de paginación */
+.pagination-font {
+  font-family: 'ABeeZee', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.3;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+
+/* Estilos de impresión */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #offer-details, #offer-details * {
+    visibility: visible;
+  }
+
+  #offer-details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+
+/* Estilos responsivos */
+@media screen and (max-width: 767px) {
+  /* Slide up para modal */
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(25%);
+    }
+  }
+
+  .slide-up {
+    animation: slideUp 0.3s ease-out forwards;
+  }
+
+  /* Ajustes de ancho */
+  #offers-list,
+  #offers-inner,
+  #pagination-wrapper,
+  .job-card,
+  .offer-list-mobile {
+    width: 100% !important;
+  }
+}
+
+#download-pdf-btn{
+  cursor: pointer;
+}
+/* Asegura que el contenedor padre distribuya espacio entre ofertas y paginado */
+#offers-list {
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Hace que el bloque de ofertas crezca para empujar el paginado hacia abajo */
+#offers-inner {
+  flex-grow: 1;
+}
+
+/* Ajustes opcionales para que el paginado no esté pegado */
+#pagination-wrapper {
+  padding-top: 1rem;
+}
