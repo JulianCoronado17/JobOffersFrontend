@@ -31,7 +31,7 @@ const renderPagination = (totalPages, listContainerId, detailsContainerId) => {
         btn.className = `
             pagination-font w-10 h-10 flex items-center justify-center border border-blue-500 
             rounded-none text-[12px] font-normaltransition duration-300 ease-in-out transform
-            ${isActive ? "bg-blue-500 !text-white scale-100" : "bg-white text-blue-500 hover:bg-blue-100 hover:scale-105 hover:shadow-md"}
+            ${isActive ? "bg-blue-500 !text-white scale-100" : "bg-white text-blue-500 hover:bg-blue-100 hover:shadow-md"}
             ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
         `;
         if (!isDisabled) {
@@ -84,9 +84,8 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
         paginationWrapper.innerHTML = "";
 
         const detailsContainer = document.getElementById(detailsContainerId);
-        if (detailsContainer) {
-            detailsContainer.innerHTML = '<p class="text-gray-500">Select a offer to see more details.</p>';
-        }
+        
+        
 
         const start = (currentPage - 1) * offersPerPage;
         const end = start + offersPerPage;
@@ -107,7 +106,7 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
             const workMode = offer.remote ? "Remote" : "On-Site";
 
             const button = document.createElement('button');
-            button.className = "w-full max-w-full min-w-[350px] text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition job-card duration-300 ease-in-out animate-fade-in ";
+            button.className = "w-full max-w-full min-w-[350px] text-left bg-white border p-4 rounded-lg shadow mb-3 hover:bg-gray-100 transition job-card duration-300 ease-in-out animate-fade-in mr-16 ";
             button.dataset.id = offer.id;
 
             button.innerHTML = `
@@ -125,6 +124,8 @@ export const renderOfferPage = async (listContainerId, detailsContainerId) => {
             button.addEventListener('click', () => {
                 renderOfferDetails(offer, detailsContainer);
             });
+
+            
 
             innerContainer.appendChild(button);
         }
@@ -177,19 +178,21 @@ async function renderOfferDetails(offer, container) {
 
       <p class="mt-4 whitespace-pre-line text-gray-800">${offer.description}</p>
       <div class="mt-auto flex flex-col items-center border-t border-gray-200 py-4">
-        <hr class="w-[450px] border-black mb-4" />
-        <button id="download-pdf-btn" class="flex items-center text-black font-medium space-x-2 mt-2">
-          <i class="fa-solid fa-file-pdf text-lg"></i>
-          <span>Download PDF</span>
-        </button>
       </div>
     </div>
     <div>
-      <hr class="my-6 border-t border-gray-300" />
-      <div class="w-full flex justify-center text-gray-600 hover:text-gray-800 cursor-pointer text-sm"
-           onclick="window.print()">
-        <i class="fas fa-print mr-2"></i> imprimir
-      </div>
+  <hr class="my-6 border-t border-gray-300" />
+  <div class="w-full flex md:justify-center justify-end items-center px-4">
+    <button id="download-pdf-btn"
+            style="all: unset; font-family: Arial, sans-serif;"
+            class="flex items-center gap-2 text-sm font-semibold  text-gray-600 hover:text-blue-500 transition duration-300">
+            <i class="fas fa-file-pdf text-base cursor-pointer" title="Print"></i>
+      <span class="hidden md:inline">Print</span>
+    </button>
+  </div>
+</div>
+
+
     </div>
   </div>
 `;
@@ -197,6 +200,12 @@ async function renderOfferDetails(offer, container) {
 
     const closeBtn = container.querySelector('#close-offer-btn');
     if (closeBtn) closeBtn.addEventListener('click', closeOfferDetails);
+    const pdfBtn = document.getElementById('download-pdf-btn');
+            if(pdfBtn){
+                pdfBtn.addEventListener('click', () => {
+                    downloadOfferAsPDF(offer);
+                });
+            }
 
     if (window.innerWidth <= 767) {
         container.classList.add('slide-up');

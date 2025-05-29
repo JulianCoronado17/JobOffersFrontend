@@ -12,11 +12,21 @@ const fetchCityName = async (cityId) => {
     }
 };
 
-export const initSearchBar = (searchInputId, searchButtonId, listContainerId, detailsContainerId) => {
-    const positionInput = document.getElementById('position-input');
-    const locationInput = document.getElementById('location-input');
-    const workModeSelects = document.querySelectorAll('#work-mode-select');
-    const searchButton = document.getElementById(searchButtonId);
+// Utilidad para seleccionar el input visible entre móvil y desktop
+const getVisibleInput = (desktopId, mobileId) => {
+    const desktopInput = document.getElementById(desktopId);
+    const mobileInput = document.getElementById(mobileId);
+
+    const isMobile = window.innerWidth <= 767;
+    return isMobile ? mobileInput : desktopInput;
+};
+
+
+export const initSearchBar = (listContainerId, detailsContainerId) => {
+    const positionInput = getVisibleInput('position-input-desktop', 'position-input-mobile');
+    const locationInput = getVisibleInput('location-input-desktop', 'location-input-mobile');
+    const workModeSelects = document.querySelectorAll('.work-mode-select');
+    const searchButton = document.getElementById('search-button');
 
     let allOffers = [];
 
@@ -45,7 +55,6 @@ export const initSearchBar = (searchInputId, searchButtonId, listContainerId, de
         const term = positionInput.value.trim().toLowerCase();
         const locationTerm = locationInput.value.trim().toLowerCase();
 
-        // Get the selected value from the visible work mode select
         let selectedMode = "Place of Work";
         workModeSelects.forEach(select => {
             if (select.offsetParent !== null) {
@@ -84,15 +93,10 @@ export const initSearchBar = (searchInputId, searchButtonId, listContainerId, de
         renderOfferPage(listContainerId, detailsContainerId);
     };
 
-    // Reactive search: execute search on each input
     positionInput.addEventListener("input", handleSearch);
     locationInput.addEventListener("input", handleSearch);
-    workModeSelects.forEach(select => {
-        select.addEventListener("change", handleSearch);
-    });
+    workModeSelects.forEach(select => select.addEventListener("change", handleSearch));
+    if (searchButton) searchButton.addEventListener("click", handleSearch);
 
-    // Also keep button functionality
-    searchButton.addEventListener("click", handleSearch);
-
-    fetchOffers(); // Initialize on load
+    fetchOffers(); // Cargar las ofertas al inicio
 };

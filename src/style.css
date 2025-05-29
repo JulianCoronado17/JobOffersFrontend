@@ -11,6 +11,7 @@
   }
 }
 
+
 .bounce {
   animation: bounce 2s infinite;
 }
@@ -113,4 +114,25 @@ body::-webkit-scrollbar {
   .offer-list-mobile {
     width: 100% !important;
   }
+}
+
+#download-pdf-btn{
+  cursor: pointer;
+}
+/* Asegura que el contenedor padre distribuya espacio entre ofertas y paginado */
+#offers-list {
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Hace que el bloque de ofertas crezca para empujar el paginado hacia abajo */
+#offers-inner {
+  flex-grow: 1;
+}
+
+/* Ajustes opcionales para que el paginado no esté pegado */
+#pagination-wrapper {
+  padding-top: 1rem;
 }
